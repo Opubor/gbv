@@ -114,9 +114,9 @@ export default function Home() {
             </h1>
             <p className="w-9/12 lg:w-6/12 pt-8 text-xs lg:text-sm bg-purple-100 rounded-br-3xl pr-4">
               Welcome to Our World, where we stand against gender-based
-              violence. Together, let's raise awareness and build a community
-              committed to breaking the cycle of abuse. Join us in creating a
-              safer and more equitable world for all.
+              violence. Together, let&apos;s raise awareness and build a
+              community committed to breaking the cycle of abuse. Join us in
+              creating a safer and more equitable world for all.
             </p>
             <div className="pt-8 pb-8 lg:pb-24 bg-purple-100 rounded-br-3xl w-7/12 lg:w-5/12">
               <Link
@@ -133,11 +133,11 @@ export default function Home() {
             <img src="/helpinghands.jpg" className="rounded-3xl h- w-full" />
             <p className="text-xs lg:text-sm mt-3">
               If you or someone you know is experiencing gender-based violence,
-              don't hesitate to reach out. Our support team is here to listen,
-              provide resources, and guide you through the journey towards
-              healing and empowerment. Your safety and well-being are our top
-              priorities. Please contact us immediately; you are not alone, and
-              help is available.
+              don&apos;t hesitate to reach out. Our support team is here to
+              listen, provide resources, and guide you through the journey
+              towards healing and empowerment. Your safety and well-being are
+              our top priorities. Please contact us immediately; you are not
+              alone, and help is available.
             </p>
             <div className="pt-3 pb-4 lg:pb-0 bg-purple-100 rounded-br-3xl">
               <Link
@@ -463,13 +463,13 @@ export default function Home() {
       {/* =====Pre Footer======= */}
       <div className="w-full flex flex-col justify-center items-center gap-4 h-72 bg-[linear-gradient(to_right_bottom,rgba(0,0,0,0.7),rgba(0,0,0,0.7)),url('/blueredpic.jpg')] bg-contain">
         <h1 className="text-white font-bold text-lg lg:text-2xl text-center hidden lg:flex">
-          Your voice matters. Click the 'Contact Us' button below <br></br> to
-          reach out and take the first step towards <br></br> support and
-          empowerment
+          Your voice matters. Click the &apos;Contact Us&apos; button below{" "}
+          <br></br> to reach out and take the first step towards <br></br>{" "}
+          support and empowerment
         </h1>
         <h1 className="text-white font-bold text-md lg:text-2xl text-center flex lg:hidden">
-          Your voice matters. Click the 'Contact Us' button below to reach out
-          and take the first step towards support and empowerment
+          Your voice matters. Click the &apos;Contact Us&apos; button below to
+          reach out and take the first step towards support and empowerment
         </h1>
         <Link
           href={"/"}

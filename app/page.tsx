@@ -484,17 +484,14 @@ export default function Home() {
         <div className="flex flex-col lg:flex-row justify-between items-start text-white">
           <div>
             <h1 className="text-md font-bold">Corporate address</h1>
-            <h1 className="text-xs font-semibold mb-1">UK Address</h1>
+            <h1 className="text-xs font-semibold mb-1">Samoa Address</h1>
             <p className="text-xs mb-2">No 2, house Samoa</p>
 
             <h1 className="text-lg font-bold mt-6">
               Join Our Social Community
             </h1>
             <div className="flex items-center gap-2">
-              <a
-                href="https://www.facebook.com/profile.php?id=100094794262869&mibextid=LQQJ4d"
-                target="_blank"
-              >
+              <a href="/" target="_blank">
                 <Image
                   src="/facebook.png"
                   alt="Facebook logo"
@@ -505,10 +502,7 @@ export default function Home() {
                 />
               </a>
 
-              <a
-                href="https://instagram.com/moricol2022?igshid=OGQ5ZDc2ODk2ZA=="
-                target="_blank"
-              >
+              <a href="/" target="_blank">
                 <Image
                   src="/instagram.png"
                   alt="Facebook logo"
@@ -540,21 +534,7 @@ export default function Home() {
               </div>
             </div>
             <h1 className="text-md font-bold mt-6">E-Mail</h1>
-            <a href={`mailto:ggdys@ggdy.com`}>gvyibybds@gmail.com</a>
-
-            <h1 className="text-md font-bold mt-6">Websites</h1>
-            <div className="flex flex-col items-start">
-              <a
-                href="https://www.moricolservices.com"
-                target="_blank"
-                className="text-xs text-blue-700"
-              >
-                www.moricolservices.com
-              </a>
-              <a href="/" className="text-xs text-blue-700">
-                www.moricolorganicshop.com
-              </a>
-            </div>
+            <a href={`mailto:ggdys@ggdy.com`}>samoagbv@gmail.com</a>
           </div>
         </div>
         <div className="mt-4 pt-2 border-t-2 border-t-white text-white">
@@ -564,7 +544,7 @@ export default function Home() {
             <Link href={"/aboutUs"}>Terms and Conditions</Link>
           </div>
           <p className="font-semibold text-xs text-center mt-4 mb-12">
-            Copyright 2023 MORICOL. All rights reserved
+            Copyright 2023 GBV SAMOA. All rights reserved
           </p>
         </div>
       </div>

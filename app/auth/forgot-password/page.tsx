@@ -17,7 +17,7 @@ type Props = {
   callbackUrl?: string;
 };
 
-function Page(props: Props) {
+function Page({ className, callbackUrl }: Props) {
   const searchParams = useSearchParams();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);

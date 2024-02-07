@@ -82,13 +82,13 @@ function Page() {
       {/* ===5. Amplifying Women's Voices=== */}
       <div className="py-4">
         <h1 className="text-md lg:text-lg text-gray-700 font-bold">
-          5. Amplifying Women's Voices
+          5. Amplifying Women&apos;s Voices
         </h1>
         <p className="text-sm">
           Emphasize the importance of amplifying the voices of women and
           non-binary individuals. Encourage men to actively support and uplift
-          women's narratives, creating a platform for diverse perspectives and
-          experiences.
+          women&apos;s narratives, creating a platform for diverse perspectives
+          and experiences.
         </p>
       </div>
       {/* ===6. Advocating for Policy Changes=== */}

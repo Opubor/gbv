@@ -62,7 +62,7 @@ function Page() {
         <p className="text-sm">
           Explore how coercive control often involves isolating the victim from
           friends, family, and support networks. Discuss manipulation tactics
-          that perpetrators use to undermine the victim's confidence and
+          that perpetrators use to undermine the victim&apos;s confidence and
           autonomy.
         </p>
       </div>

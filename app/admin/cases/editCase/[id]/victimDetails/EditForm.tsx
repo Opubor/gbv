@@ -336,7 +336,7 @@ function EditForm({ victimDetails }: Props) {
             className="border border-themeColor px-2 py-1 rounded-md"
           >
             <option value={""}>Select an Option</option>
-            <option value={"Victim's Home"}>Victim's Home</option>
+            <option value={"Victims Home"}>Victims Home</option>
             <option value={"Perpetrators Home"}>Perpetrators Home</option>
             <option value={"Workplace"}>Workplace</option>
             <option value={"Beach"}>Beach</option>
@@ -346,7 +346,7 @@ function EditForm({ victimDetails }: Props) {
             <option value={"Garden/Bush"}>Garden/Bush</option>
             <option value={"Night club"}>Night club</option>
             <option value={"Marketplace"}>Marketplace</option>
-            <option value={"Don't Know"}>Don't Know</option>
+            <option value={"Dont Know"}>Dont Know</option>
             <option value={"Others"}>Others</option>
           </select>
           {errors.incidentLocation && (

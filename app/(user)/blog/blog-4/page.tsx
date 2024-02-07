@@ -25,7 +25,7 @@ function Page() {
         </h1>
         <p className="text-sm">
           Gender-based violence is a complex issue that intersects with various
-          aspects of an individual's identity. In this brief blog post, we
+          aspects of an individual&apos;s identity. In this brief blog post, we
           explore the concept of intersectionality in the context of
           gender-based violence, emphasizing the importance of recognizing and
           addressing the unique challenges faced by individuals who experience

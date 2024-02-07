@@ -29,8 +29,9 @@ function Page() {
           worldwide. It encompasses a range of abuses, including physical,
           emotional, and sexual violence. Managing and addressing GBV requires a
           collective effort from individuals, communities, and organizations. In
-          this blog post, we'll explore proactive steps to manage gender-based
-          violence, providing a roadmap for empowerment and support.
+          this blog post, we&apos;ll explore proactive steps to manage
+          gender-based violence, providing a roadmap for empowerment and
+          support.
         </p>
       </div>
 
@@ -120,7 +121,7 @@ function Page() {
         <p className="text-sm">
           Partner with local and national organizations dedicated to addressing
           gender-based violence. Volunteer your time or resources to support
-          their initiatives, whether it's through awareness campaigns,
+          their initiatives, whether it&apos;s through awareness campaigns,
           educational programs, or fundraising efforts.
         </p>
       </div>

@@ -39,9 +39,9 @@ function Page() {
         </h1>
         <p className="text-sm">
           Exploring the importance of introducing age-appropriate anti-violence
-          education early in a child's academic journey. Discussing how building
-          foundational knowledge on consent, respect, and equality can create a
-          lasting impact on shaping attitudes and behaviors.
+          education early in a child&apos;s academic journey. Discussing how
+          building foundational knowledge on consent, respect, and equality can
+          create a lasting impact on shaping attitudes and behaviors.
         </p>
       </div>
       {/* ===2. Key Components of Anti-Violence Programs=== */}
@@ -113,8 +113,8 @@ function Page() {
         <p className="text-sm">
           Showcasing success stories from schools that have successfully
           implemented anti-violence programs. Discussing methods for assessing
-          the impact of these programs on students' attitudes, behaviors, and
-          overall school culture.
+          the impact of these programs on students&apos; attitudes, behaviors,
+          and overall school culture.
         </p>
       </div>
       {/* ===8. Challenges and Solutions=== */}

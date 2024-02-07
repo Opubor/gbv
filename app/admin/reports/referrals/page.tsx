@@ -43,7 +43,7 @@ async function Page() {
               <tr className="border-t border-t-black py-4 hover:bg-gray-50 text-center">
                 <td className="border-r border-r-black">January</td>
                 {agencies?.map((agency: any) => (
-                  <td className="border-r border-r-black">
+                  <td key={agency?.id} className="border-r border-r-black">
                     {
                       allCases.filter((data?) => {
                         return (
@@ -60,7 +60,7 @@ async function Page() {
               <tr className="border-t border-t-black py-4 hover:bg-gray-50 text-center">
                 <td className="border-r border-r-black">Febuary</td>
                 {agencies?.map((agency: any) => (
-                  <td className="border-r border-r-black">
+                  <td key={agency?.id} className="border-r border-r-black">
                     {
                       allCases.filter((data?) => {
                         return (
@@ -77,7 +77,7 @@ async function Page() {
               <tr className="border-t border-t-black py-4 hover:bg-gray-50 text-center">
                 <td className="border-r border-r-black">March</td>
                 {agencies?.map((agency: any) => (
-                  <td className="border-r border-r-black">
+                  <td key={agency?.id} className="border-r border-r-black">
                     {
                       allCases.filter((data?) => {
                         return (
@@ -94,7 +94,7 @@ async function Page() {
               <tr className="border-t border-t-black py-4 hover:bg-gray-50 text-center">
                 <td className="border-r border-r-black">April</td>
                 {agencies?.map((agency: any) => (
-                  <td className="border-r border-r-black">
+                  <td key={agency?.id} className="border-r border-r-black">
                     {
                       allCases.filter((data?) => {
                         return (
@@ -111,7 +111,7 @@ async function Page() {
               <tr className="border-t border-t-black py-4 hover:bg-gray-50 text-center">
                 <td className="border-r border-r-black">May</td>
                 {agencies?.map((agency: any) => (
-                  <td className="border-r border-r-black">
+                  <td key={agency?.id} className="border-r border-r-black">
                     {
                       allCases.filter((data?) => {
                         return (
@@ -128,7 +128,7 @@ async function Page() {
               <tr className="border-t border-t-black py-4 hover:bg-gray-50 text-center">
                 <td className="border-r border-r-black">June</td>
                 {agencies?.map((agency: any) => (
-                  <td className="border-r border-r-black">
+                  <td key={agency?.id} className="border-r border-r-black">
                     {
                       allCases.filter((data?) => {
                         return (
@@ -145,7 +145,7 @@ async function Page() {
               <tr className="border-t border-t-black py-4 hover:bg-gray-50 text-center">
                 <td className="border-r border-r-black">July</td>
                 {agencies?.map((agency: any) => (
-                  <td className="border-r border-r-black">
+                  <td key={agency?.id} className="border-r border-r-black">
                     {
                       allCases.filter((data?) => {
                         return (
@@ -162,7 +162,7 @@ async function Page() {
               <tr className="border-t border-t-black py-4 hover:bg-gray-50 text-center">
                 <td className="border-r border-r-black">August</td>
                 {agencies?.map((agency: any) => (
-                  <td className="border-r border-r-black">
+                  <td key={agency?.id} className="border-r border-r-black">
                     {
                       allCases.filter((data?) => {
                         return (
@@ -179,7 +179,7 @@ async function Page() {
               <tr className="border-t border-t-black py-4 hover:bg-gray-50 text-center">
                 <td className="border-r border-r-black">September</td>
                 {agencies?.map((agency: any) => (
-                  <td className="border-r border-r-black">
+                  <td key={agency?.id} className="border-r border-r-black">
                     {
                       allCases.filter((data?) => {
                         return (
@@ -196,7 +196,7 @@ async function Page() {
               <tr className="border-t border-t-black py-4 hover:bg-gray-50 text-center">
                 <td className="border-r border-r-black">October</td>
                 {agencies?.map((agency: any) => (
-                  <td className="border-r border-r-black">
+                  <td key={agency?.id} className="border-r border-r-black">
                     {
                       allCases.filter((data?) => {
                         return (
@@ -213,7 +213,7 @@ async function Page() {
               <tr className="border-t border-t-black py-4 hover:bg-gray-50 text-center">
                 <td className="border-r border-r-black">November</td>
                 {agencies?.map((agency: any) => (
-                  <td className="border-r border-r-black">
+                  <td key={agency?.id} className="border-r border-r-black">
                     {
                       allCases.filter((data?) => {
                         return (
@@ -230,7 +230,7 @@ async function Page() {
               <tr className="border-t border-t-black py-4 hover:bg-gray-50 text-center">
                 <td className="border-r border-r-black">December</td>
                 {agencies?.map((agency: any) => (
-                  <td className="border-r border-r-black">
+                  <td key={agency?.id} className="border-r border-r-black">
                     {
                       allCases.filter((data?) => {
                         return (
@@ -247,7 +247,7 @@ async function Page() {
               <tr className="border-t border-t-black py-4 hover:bg-gray-50 text-center font-bold">
                 <td className="border-r border-r-black">Total</td>
                 {agencies?.map((agency: any) => (
-                  <td className="border-r border-r-black">
+                  <td key={agency?.id} className="border-r border-r-black">
                     {
                       allCases.filter((data?) => {
                         return data?.serviceProviderId === agency?.id;
@@ -288,7 +288,7 @@ async function Page() {
               <tr className="border-t border-t-black py-4 hover:bg-gray-50 text-center">
                 <td className="border-r border-r-black">January</td>
                 {agencies?.map((agency: any) => (
-                  <td className="border-r border-r-black">
+                  <td key={agency?.id} className="border-r border-r-black">
                     {
                       allCases.filter((data?) => {
                         return (
@@ -305,7 +305,7 @@ async function Page() {
               <tr className="border-t border-t-black py-4 hover:bg-gray-50 text-center">
                 <td className="border-r border-r-black">Febuary</td>
                 {agencies?.map((agency: any) => (
-                  <td className="border-r border-r-black">
+                  <td key={agency?.id} className="border-r border-r-black">
                     {
                       allCases.filter((data?) => {
                         return (
@@ -322,7 +322,7 @@ async function Page() {
               <tr className="border-t border-t-black py-4 hover:bg-gray-50 text-center">
                 <td className="border-r border-r-black">March</td>
                 {agencies?.map((agency: any) => (
-                  <td className="border-r border-r-black">
+                  <td key={agency?.id} className="border-r border-r-black">
                     {
                       allCases.filter((data?) => {
                         return (
@@ -339,7 +339,7 @@ async function Page() {
               <tr className="border-t border-t-black py-4 hover:bg-gray-50 text-center">
                 <td className="border-r border-r-black">April</td>
                 {agencies?.map((agency: any) => (
-                  <td className="border-r border-r-black">
+                  <td key={agency?.id} className="border-r border-r-black">
                     {
                       allCases.filter((data?) => {
                         return (
@@ -356,7 +356,7 @@ async function Page() {
               <tr className="border-t border-t-black py-4 hover:bg-gray-50 text-center">
                 <td className="border-r border-r-black">May</td>
                 {agencies?.map((agency: any) => (
-                  <td className="border-r border-r-black">
+                  <td key={agency?.id} className="border-r border-r-black">
                     {
                       allCases.filter((data?) => {
                         return (
@@ -373,7 +373,7 @@ async function Page() {
               <tr className="border-t border-t-black py-4 hover:bg-gray-50 text-center">
                 <td className="border-r border-r-black">June</td>
                 {agencies?.map((agency: any) => (
-                  <td className="border-r border-r-black">
+                  <td key={agency?.id} className="border-r border-r-black">
                     {
                       allCases.filter((data?) => {
                         return (
@@ -390,7 +390,7 @@ async function Page() {
               <tr className="border-t border-t-black py-4 hover:bg-gray-50 text-center">
                 <td className="border-r border-r-black">July</td>
                 {agencies?.map((agency: any) => (
-                  <td className="border-r border-r-black">
+                  <td key={agency?.id} className="border-r border-r-black">
                     {
                       allCases.filter((data?) => {
                         return (
@@ -407,7 +407,7 @@ async function Page() {
               <tr className="border-t border-t-black py-4 hover:bg-gray-50 text-center">
                 <td className="border-r border-r-black">August</td>
                 {agencies?.map((agency: any) => (
-                  <td className="border-r border-r-black">
+                  <td key={agency?.id} className="border-r border-r-black">
                     {
                       allCases.filter((data?) => {
                         return (
@@ -424,7 +424,7 @@ async function Page() {
               <tr className="border-t border-t-black py-4 hover:bg-gray-50 text-center">
                 <td className="border-r border-r-black">September</td>
                 {agencies?.map((agency: any) => (
-                  <td className="border-r border-r-black">
+                  <td key={agency?.id} className="border-r border-r-black">
                     {
                       allCases.filter((data?) => {
                         return (
@@ -441,7 +441,7 @@ async function Page() {
               <tr className="border-t border-t-black py-4 hover:bg-gray-50 text-center">
                 <td className="border-r border-r-black">October</td>
                 {agencies?.map((agency: any) => (
-                  <td className="border-r border-r-black">
+                  <td key={agency?.id} className="border-r border-r-black">
                     {
                       allCases.filter((data?) => {
                         return (
@@ -458,7 +458,7 @@ async function Page() {
               <tr className="border-t border-t-black py-4 hover:bg-gray-50 text-center">
                 <td className="border-r border-r-black">November</td>
                 {agencies?.map((agency: any) => (
-                  <td className="border-r border-r-black">
+                  <td key={agency?.id} className="border-r border-r-black">
                     {
                       allCases.filter((data?) => {
                         return (
@@ -475,7 +475,7 @@ async function Page() {
               <tr className="border-t border-t-black py-4 hover:bg-gray-50 text-center">
                 <td className="border-r border-r-black">December</td>
                 {agencies?.map((agency: any) => (
-                  <td className="border-r border-r-black">
+                  <td key={agency?.id} className="border-r border-r-black">
                     {
                       allCases.filter((data?) => {
                         return (
@@ -492,7 +492,7 @@ async function Page() {
               <tr className="border-t border-t-black py-4 hover:bg-gray-50 text-center font-bold">
                 <td className="border-r border-r-black">Total</td>
                 {agencies?.map((agency: any) => (
-                  <td className="border-r border-r-black">
+                  <td key={agency?.id} className="border-r border-r-black">
                     {
                       allCases.filter((data?) => {
                         return data?.serviceProviderReferralId === agency?.id;

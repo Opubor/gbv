@@ -12,12 +12,7 @@ import { forgotPasswordSchema } from "@/schema/resetPassword";
 import { FaHandHoldingHeart } from "react-icons/fa";
 import { toast } from "react-toastify";
 
-type Props = {
-  className?: string;
-  callbackUrl?: string;
-};
-
-function Page({ className, callbackUrl }: Props) {
+function Page() {
   const searchParams = useSearchParams();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);

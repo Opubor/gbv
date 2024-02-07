@@ -1,0 +1,177 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                       String   @id @default(uuid())
+  firstName                String
+  lastName                 String
+  email                    String   @unique
+  role                     String
+  password                 String
+  gender                   String?
+  phoneNumber              String?
+  branch                   String
+  userBranch               Agency?  @relation(fields: [branch], references: [id], onDelete: Cascade)
+  resetPasswordToken       String?  @unique
+  resetPasswordTokenExpiry String?
+  createdAt                DateTime @default(now())
+}
+
+model Agency {
+  id      String  @id @default(uuid())
+  name    String
+  email   String
+  phone1  String
+  phone2  String?
+  founded String?
+  city    String
+  address String
+  about   String?
+  branch  String?
+
+  serviceProvider         Case[]   @relation("ServiceProvider")
+  serviceProviderReferral Case[]   @relation("ServiceProviderReferral")
+  createdAt               DateTime @default(now())
+  User                    User[]
+}
+
+model Case {
+  id                        String           @id @default(uuid())
+  caseId                    String
+  registeredBy              String
+  registrationDate          String
+  registrationTime          String
+  incidentDate              String
+  region                    String
+  tbid                      String?
+  serviceProviderId         String?
+  serviceProvider           Agency?          @relation("ServiceProvider", fields: [serviceProviderId], references: [id], onDelete: Cascade)
+  serviceProviderReferralId String?
+  serviceProviderReferral   Agency?          @relation("ServiceProviderReferral", fields: [serviceProviderReferralId], references: [id], onDelete: Cascade)
+  Victim                    Victim[]
+  Perpetrator               Perpetrator[]
+  GbvInformation            GbvInformation[]
+  createdAt                 DateTime         @default(now())
+}
+
+model Victim {
+  id                              String   @id @default(uuid())
+  caseId                          String
+  case                            Case     @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  newClient                       String
+  residentialVillage              String
+  secondVillage                   String
+  dob                             String
+  age                             String
+  sex                             String
+  nationality                     String
+  maritalStatus                   String
+  mainActivity                    String
+  religion                        String
+  disabled                        String
+  typeOfDisability                String?
+  incidentVillage                 String
+  incidentLocation                String
+  incidentTime                    String
+  violenceType                    String
+  causeOfViolence                 String
+  perpetratorSex                  String
+  perpetratorSurvivorRelationship String
+  immediateProtection             String
+  createdAt                       DateTime @default(now())
+
+  @@index([caseId])
+}
+
+model Perpetrator {
+  id                     String   @id @default(uuid())
+  caseId                 String
+  case                   Case     @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  noOfPerpetrators       String
+  contactWithPerpetrator String
+  residentialVillage     String
+  secondVillage          String
+  dob                    String
+  age                    String
+  sex                    String
+  nationality            String
+  maritalStatus          String
+  mainActivity           String
+  religion               String
+  disabled               String
+  typeOfDisability       String?
+  protectionOrder        String
+  createdAt              DateTime @default(now())
+
+  @@index([caseId])
+}
+
+model GbvInformation {
+  id                   String   @id @default(uuid())
+  caseId               String
+  case                 Case     @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  referredBy           String
+  anyService           String
+  medicalSupport       Boolean?
+  shelter              Boolean?
+  psychological        Boolean?
+  legalAssistance      Boolean?
+  securityProtection   Boolean?
+  vocTraining          Boolean?
+  infoLocal            Boolean?
+  emotionalSupport     Boolean?
+  otherSupport         String?
+  redirected           String
+  rsMedicalSupport     Boolean?
+  rsShelter            Boolean?
+  rsPsychological      Boolean?
+  rsLegalAssistance    Boolean?
+  rsSecurityProtection Boolean?
+  rsVocTraining        Boolean?
+  rsInfoLocal          Boolean?
+  rsEmotionalSupport   Boolean?
+  rsOtherSupport       String?
+  droppedOutVictim     String
+  policeReport         String
+  protectionOrder      String
+  suicideAttempt       String
+  suicideTime          String?
+  suicideMethod        String?
+  noOfAttempts         String?
+  satisfiedService     String
+  reasonNotSatisfied   String?
+  createdAt            DateTime @default(now())
+
+  @@index([caseId])
+}
+
+model GetHelp {
+  id                String   @id @default(uuid())
+  username          String
+  email             String
+  phone             String
+  address           String
+  natureOfIncident  String?
+  safetyConcerns    String?
+  additionalDetails String?
+  emotionalSupport  Boolean?
+  infoLocal         Boolean?
+  legalAdvice       Boolean?
+  shelter           Boolean?
+  medicalSupport    Boolean?
+  otherSupport      String?
+  immediateDanger   Boolean?
+  contactAgreement  Boolean?
+  contacted         String?
+  date              String?
+  createdAt         DateTime @default(now())
+}

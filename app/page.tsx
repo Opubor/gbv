@@ -1,110 +1,31 @@
-"use client";
+import BlogPosts from "@/components/BlogPosts";
+import Footer from "@/components/Footer";
+import GetHelpForm from "@/components/GetHelpForm";
+import Navbar from "@/components/Navbar";
+import OurAgencies from "@/components/OurAgencies";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { CiLocationArrow1, CiMail } from "react-icons/ci";
 import {
   FaArrowAltCircleUp,
   FaArrowRight,
+  FaHandHoldingHeart,
   FaHandsHelping,
   FaWhatsapp,
 } from "react-icons/fa";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { IoLogoBuffer } from "react-icons/io";
 import { IoCallOutline } from "react-icons/io5";
-
-const agencies = [
-  {
-    id: 1,
-    name: "Agency 1",
-    about:
-      "Committed to breaking the cycle of abuse, we stand as a refuge for survivors, providing empathetic care, resources, and advocacy. Our agency is dedicated to fostering empowerment, raising awareness, and creating a community that stands united against all forms of gender-based violence. Together, we strive to bring about lasting change, empowering individuals to rebuild their lives and fostering a world where respect, equality, and justice prevail",
-  },
-  {
-    id: 2,
-    name: "Agency 1",
-    about:
-      "Committed to breaking the cycle of abuse, we stand as a refuge for survivors, providing empathetic care, resources, and advocacy. Our agency is dedicated to fostering empowerment, raising awareness, and creating a community that stands united against all forms of gender-based violence. Together, we strive to bring about lasting change, empowering individuals to rebuild their lives and fostering a world where respect, equality, and justice prevail",
-  },
-  {
-    id: 3,
-    name: "Agency 1",
-    about:
-      "Committed to breaking the cycle of abuse, we stand as a refuge for survivors, providing empathetic care, resources, and advocacy. Our agency is dedicated to fostering empowerment, raising awareness, and creating a community that stands united against all forms of gender-based violence. Together, we strive to bring about lasting change, empowering individuals to rebuild their lives and fostering a world where respect, equality, and justice prevail",
-  },
-  {
-    id: 4,
-    name: "Agency 1",
-    about:
-      "Committed to breaking the cycle of abuse, we stand as a refuge for survivors, providing empathetic care, resources, and advocacy. Our agency is dedicated to fostering empowerment, raising awareness, and creating a community that stands united against all forms of gender-based violence. Together, we strive to bring about lasting change, empowering individuals to rebuild their lives and fostering a world where respect, equality, and justice prevail",
-  },
-  {
-    id: 5,
-    name: "Agency 1",
-    about:
-      "Committed to breaking the cycle of abuse, we stand as a refuge for survivors, providing empathetic care, resources, and advocacy. Our agency is dedicated to fostering empowerment, raising awareness, and creating a community that stands united against all forms of gender-based violence. Together, we strive to bring about lasting change, empowering individuals to rebuild their lives and fostering a world where respect, equality, and justice prevail",
-  },
-  {
-    id: 6,
-    name: "Agency 1",
-    about:
-      "Committed to breaking the cycle of abuse, we stand as a refuge for survivors, providing empathetic care, resources, and advocacy. Our agency is dedicated to fostering empowerment, raising awareness, and creating a community that stands united against all forms of gender-based violence. Together, we strive to bring about lasting change, empowering individuals to rebuild their lives and fostering a world where respect, equality, and justice prevail",
-  },
-];
+import { LuHelpingHand } from "react-icons/lu";
 
 export default function Home() {
-  const [openNavbar, setOpenNavbar] = useState(false);
   return (
     <main>
       {/* =======Header======== */}
       <div className="bg-purple-100 lg:h-screen px-2 lg:px-28">
         {/* ======Navbar======= */}
-        <div className="flex justify-between items-center py-3 fixed left-0 right-0 top-0 px-2 lg:px-28 bg-purple-100 z-50">
-          <div className="flex justify-start items-center gap-1 lg:gap-2 text-base lg:text-xl font-bold text-purple-700">
-            <div
-              className="flex lg:hidden cursor-pointer hover:animate-spin"
-              onClick={() =>
-                openNavbar === true ? setOpenNavbar(false) : setOpenNavbar(true)
-              }
-            >
-              <GiHamburgerMenu className="text-purple-900" size={20} />
-            </div>
-            <FaHandsHelping />
-            <h1 className="text">#BreakTheSilence</h1>
-          </div>
-          <div>
-            <ul
-              className={`hidden lg:flex items-center justify-between gap-8 text-sm font-semibold `}
-            >
-              <li>
-                <Link href={"/"}>Home</Link>
-              </li>
-              <li>
-                <Link href={"/"}>About Us</Link>
-              </li>
-              <li>
-                <Link href={"/"}>Resources</Link>
-              </li>
-              <li>
-                <Link href={"/"}>Register Agency</Link>
-              </li>
-              <li>
-                <Link href={"/"}>Contact Us</Link>
-              </li>
-            </ul>
-          </div>
-
-          <div className="mr-3 lg:mr-0=">
-            <Link
-              href={"/"}
-              className="flex items-center gap-2 justify-center p-2 lg:p-3 w-24 lg:w-32 font-semibold rounded-full border border-purple-800 text-xs lg:text-sm"
-            >
-              <FaArrowAltCircleUp className="text-purple-600 text-lg lg:text-2xl rotate-12" />
-              <span>Get Help</span>
-            </Link>
-          </div>
-        </div>
+        <Navbar />
 
         {/* ======Header Body======== */}
         <div className="pt-20 lg:pt-32 flex flex-col lg:flex-row justify-between lg:gap-6">
@@ -120,7 +41,7 @@ export default function Home() {
             </p>
             <div className="pt-8 pb-8 lg:pb-24 bg-purple-100 rounded-br-3xl w-7/12 lg:w-5/12">
               <Link
-                href={"/"}
+                href={"/get-help"}
                 className="flex items-center gap-2 justify-center p-2 lg:p-3 w-36 lg:w-44 font-semibold rounded-full border border-purple-800 text-xs lg:text-sm"
               >
                 <FaArrowAltCircleUp className="text-purple-600 text-2xl rotate-12" />
@@ -140,8 +61,8 @@ export default function Home() {
               alone, and help is available.
             </p>
             <div className="pt-3 pb-4 lg:pb-0 bg-purple-100 rounded-br-3xl">
-              <Link
-                href={"/"}
+              <a
+                href={"#contactUs"}
                 className="flex items-center gap-2 justify-center p-3 font-semibold rounded-full border border-purple-800 text-sm"
               >
                 <div className="4/12">
@@ -155,45 +76,17 @@ export default function Home() {
                     towards healing and empowerment.
                   </span>
                 </div>
-              </Link>
+              </a>
             </div>
           </div>
         </div>
       </div>
 
-      <div
-        className={`${
-          openNavbar ? "flex flex-col lg:hidden" : "hidden"
-        } bg-white fixed top-0 left-0 w-72 p-4 shadow-md shadow-gray-50 h-screen z-50`}
-      >
-        <div className="flex justify-end py-3">
-          <AiOutlineClose
-            size={20}
-            className="hover:animate-spin"
-            onClick={() => setOpenNavbar(false)}
-          />
-        </div>
-        <ul className={`flex flex-col gap-6 text-sm font-semibold `}>
-          <li>
-            <Link href={"/"}>Home</Link>
-          </li>
-          <li>
-            <Link href={"/"}>About Us</Link>
-          </li>
-          <li>
-            <Link href={"/"}>Resources</Link>
-          </li>
-          <li>
-            <Link href={"/"}>Register Agency</Link>
-          </li>
-          <li>
-            <Link href={"/"}>Contact Us</Link>
-          </li>
-        </ul>
-      </div>
-
       {/* =======About Us======= */}
-      <div className="flex flex-col lg:flex-row items-start justify-between gap-6 px-2 lg:px-28 lg:h-screen py-12 lg:py-16">
+      <div
+        id="aboutUs"
+        className="flex flex-col lg:flex-row items-start justify-between gap-6 px-2 lg:px-28 lg:h-screen py-12 lg:py-16"
+      >
         <div className="w-full lg:w-6/12">
           <div className="flex items-center">
             <div className="border-t border-gray-400 flex-grow"></div>
@@ -254,210 +147,24 @@ export default function Home() {
       </div>
 
       {/* =======Our Agencies==== */}
-      <div className="py-12 lg:py-16 px-2 lg:px-28 bg-purple-50">
-        <div className="flex items-center">
-          <div className="border-t border-gray-400 flex-grow"></div>
-          <div className="text-xl lg:text-3xl text-center font-bold mx-1">
-            Contact Our <span className="text-purple-600">Agencies</span>
-          </div>
-          <div className="border-t border-gray-400 flex-grow"></div>
-        </div>
-        <p className="text-gray-500 text-xs lg:text-sm text-center my-1">
-          Reach Out for Support{" "}
-        </p>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
-          {agencies.map((data: any) => (
-            <div className="bg-white rounded-md pt-6 pb-8 px-6" key={data?.id}>
-              <div className="flex justify-between items-center">
-                <img src="/hands.jpg" className="h-12 w-12 rounded-full" />
-                <div className="flex items-center gap-2 text-white font-bold">
-                  <a
-                    href="/"
-                    className="h-10 w-10 rounded-full flex justify-center items-center bg-purple-400"
-                  >
-                    <IoCallOutline />
-                  </a>
-                  <a
-                    href="/"
-                    className="h-10 w-10 rounded-full flex justify-center items-center bg-blue-400"
-                  >
-                    <IoCallOutline />
-                  </a>
-                  <a
-                    href="/"
-                    className="h-10 w-10 rounded-full flex justify-center items-center bg-green-400"
-                  >
-                    <FaWhatsapp />
-                  </a>
-                  <a
-                    href="/"
-                    className="h-10 w-10 rounded-full flex justify-center items-center bg-red-400"
-                  >
-                    <CiMail />
-                  </a>
-                  <a
-                    href="/"
-                    className="h-10 w-10 rounded-full flex justify-center items-center bg-amber-500"
-                  >
-                    <CiLocationArrow1 />
-                  </a>
-                </div>
-              </div>
-              <div className="mt-8">
-                <h1 className="font-bold text-md">Samoa Helping Hands</h1>
-                <p className="text-sm mt-2">
-                  Committed to breaking the cycle of abuse, we stand as a refuge
-                  for survivors, providing empathetic care, resources, and
-                  advocacy. Our agency is dedicated to fostering empowerment,
-                  raising awareness, and creating a community that stands united
-                  against all forms of gender-based violence. Together, we
-                  strive to bring about lasting change, empowering individuals
-                  to rebuild their lives and fostering a world where respect,
-                  equality, and justice prevail.
-                </p>
-                <div className="w-12/12 mt-6">
-                  <Link
-                    href={"/"}
-                    className="bg-white border border-purple-700 text-purple-700 text-sm py-3 px-12 hover:bg-purple-100 rounded-lg flex items-center justify-center gap-2"
-                  >
-                    <span>View Agency</span> <CiLocationArrow1 size={20} />
-                  </Link>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
+      <div id="contactUs">
+        <OurAgencies />
       </div>
 
       {/* ======Blog Posts===== */}
-      <div className="py-12 lg:py-16 px-2 lg:px-28">
-        <div className="flex items-center">
-          <div className="border-t border-gray-400 flex-grow"></div>
-          <div className="text-xl lg:text-3xl text-center font-bold mx-1">
-            Helpful <span className="text-purple-600">Resourses</span>
-          </div>
-          <div className="border-t border-gray-400 flex-grow"></div>
-        </div>
-        <p className="text-gray-500 text-xs lg:text-sm text-center my-1">
-          Empowering Hope, One Resource at a Time{" "}
-        </p>
-        <div className="mt-8 grid grid-cols-1 lg:grid-cols-12 gap-2">
-          <div className="flex items-end lg:col-span-6 bg-[linear-gradient(to_right_bottom,rgba(0,0,0,0.5),rgba(0,0,0,0.5)),url('/helpinghands.jpg')] p-6 bg-cover h-72">
-            <h1 className="text-white text-xl lg:text-3xl font-bold">
-              Breaking the Silence:<br></br> Navigating the Landscape of
-              Gender-Based Violence.
-            </h1>
-          </div>
-          <div className="lg:col-span-2 shadow-lg shadow-gray-200 h-72">
-            <div className="bg-[linear-gradient(to_right_bottom,rgba(0,0,0,0.5),rgba(0,0,0,0.5)),url('/hands.jpg')] h-40 w-full bg-cover"></div>
-            <div className="p-2">
-              <h1 className="text-sm mb-2">
-                Catalyzing Change: Strategies and Solutions for Ending
-                Gender-Based Violence
-              </h1>
-              <Link
-                href={"/"}
-                className="font-extrabold text-purple-800 text-sm flex items-center"
-              >
-                View Article
-                <FaArrowRight className="animate-bounce" />
-              </Link>
-            </div>
-          </div>
-          <div className="lg:col-span-2 shadow-lg shadow-gray-200 h-72">
-            <div className="bg-[linear-gradient(to_right_bottom,rgba(0,0,0,0.5),rgba(0,0,0,0.5)),url('/helpinghands.jpg')] h-40 w-full bg-cover"></div>
-            <div className="p-2">
-              <h1 className="text-sm mb-2">
-                Catalyzing Change: Strategies and Solutions for Ending
-                Gender-Based Violence
-              </h1>
-              <Link
-                href={"/"}
-                className="font-extrabold text-purple-800 text-sm flex items-center"
-              >
-                View Article
-                <FaArrowRight className="animate-bounce" />
-              </Link>
-            </div>
-          </div>
-          <div className="lg:col-span-2 shadow-lg shadow-gray-200 h-72">
-            <div className="bg-[linear-gradient(to_right_bottom,rgba(0,0,0,0.5),rgba(0,0,0,0.5)),url('/helpinghands.jpg')] h-40 w-full bg-cover"></div>
-            <div className="p-2">
-              <h1 className="text-sm mb-2">
-                Catalyzing Change: Strategies and Solutions for Ending
-                Gender-Based Violence
-              </h1>
-              <Link
-                href={"/"}
-                className="font-extrabold text-purple-800 text-sm flex items-center"
-              >
-                View Article
-                <FaArrowRight className="animate-bounce" />
-              </Link>
-            </div>
-          </div>
-        </div>
+      <div id="resources">
+        <BlogPosts />
+      </div>
 
-        {/* ======Second Blog Columns======= */}
-        <div className="mt-8 grid grid-cols-1 lg:grid-cols-12 gap-2">
-          <div className="lg:col-span-2 shadow-lg shadow-gray-200 h-72">
-            <div className="bg-[linear-gradient(to_right_bottom,rgba(0,0,0,0.5),rgba(0,0,0,0.5)),url('/hands.jpg')] h-40 w-full bg-cover"></div>
-            <div className="p-2">
-              <h1 className="text-sm mb-2">
-                Catalyzing Change: Strategies and Solutions for Ending
-                Gender-Based Violence
-              </h1>
-              <Link
-                href={"/"}
-                className="font-extrabold text-purple-800 text-sm flex items-center"
-              >
-                View Article
-                <FaArrowRight className="animate-bounce" />
-              </Link>
-            </div>
-          </div>
-
-          <div className="lg:col-span-2 shadow-lg shadow-gray-200 h-72">
-            <div className="bg-[linear-gradient(to_right_bottom,rgba(0,0,0,0.5),rgba(0,0,0,0.5)),url('/helpinghands.jpg')] h-40 w-full bg-cover"></div>
-            <div className="p-2">
-              <h1 className="text-sm mb-2">
-                Catalyzing Change: Strategies and Solutions for Ending
-                Gender-Based Violence
-              </h1>
-              <Link
-                href={"/"}
-                className="font-extrabold text-purple-800 text-sm flex items-center"
-              >
-                View Article
-                <FaArrowRight className="animate-bounce" />
-              </Link>
-            </div>
-          </div>
-
-          <div className="lg:col-span-2 shadow-lg shadow-gray-200 h-72">
-            <div className="bg-[linear-gradient(to_right_bottom,rgba(0,0,0,0.5),rgba(0,0,0,0.5)),url('/helpinghands.jpg')] h-40 w-full bg-cover"></div>
-            <div className="p-2">
-              <h1 className="text-sm mb-2">
-                Catalyzing Change: Strategies and Solutions for Ending
-                Gender-Based Violence
-              </h1>
-              <Link
-                href={"/"}
-                className="font-extrabold text-purple-800 text-sm flex items-center"
-              >
-                View Article
-                <FaArrowRight className="animate-bounce" />
-              </Link>
-            </div>
-          </div>
-          <div className="flex items-end lg:col-span-6 bg-[linear-gradient(to_right_bottom,rgba(0,0,0,0.5),rgba(0,0,0,0.5)),url('/helpinghands.jpg')] p-6 bg-cover h-72">
-            <h1 className="text-white text-xl lg:text-3xl font-bold">
-              Breaking the Silence:<br></br> Navigating the Landscape of
-              Gender-Based Violence.
-            </h1>
-          </div>
+      {/* ======Get Help Form====== */}
+      <div className="py-12 lg:py-16 px-2 lg:px-28 bg-gray-50" id="#getHelp">
+        <div className="flex items-center gap-1 mb-4">
+          <FaHandHoldingHeart className="text-2xl" />
+          <h1 className="font-bold text-lg lg:text-2xl">
+            Get Help Form - Support and Assistance Request
+          </h1>
         </div>
+        <GetHelpForm />
       </div>
 
       {/* =====Pre Footer======= */}
@@ -472,7 +179,7 @@ export default function Home() {
           reach out and take the first step towards support and empowerment
         </h1>
         <Link
-          href={"/"}
+          href={"#contactUs"}
           className="bg-purple-600 hover:bg-purple-400 text-white font-bold px-16 py-3 rounded-sm text-xs lg:text-sm"
         >
           Contact Us
@@ -480,74 +187,7 @@ export default function Home() {
       </div>
 
       {/* =======Footer======== */}
-      <div className="bg-purple-800  p-4 xl:px-40 pb-16 pt-6">
-        <div className="flex flex-col lg:flex-row justify-between items-start text-white">
-          <div>
-            <h1 className="text-md font-bold">Corporate address</h1>
-            <h1 className="text-xs font-semibold mb-1">Samoa Address</h1>
-            <p className="text-xs mb-2">No 2, house Samoa</p>
-
-            <h1 className="text-lg font-bold mt-6">
-              Join Our Social Community
-            </h1>
-            <div className="flex items-center gap-2">
-              <a href="/" target="_blank">
-                <Image
-                  src="/facebook.png"
-                  alt="Facebook logo"
-                  className="w-8"
-                  width={100}
-                  height={0}
-                  priority
-                />
-              </a>
-
-              <a href="/" target="_blank">
-                <Image
-                  src="/instagram.png"
-                  alt="Facebook logo"
-                  className="w-8"
-                  width={100}
-                  height={0}
-                  priority
-                />
-              </a>
-
-              <Image
-                src="/twitter.png"
-                alt="Facebook logo"
-                className="w-8"
-                width={100}
-                height={0}
-                priority
-              />
-            </div>
-          </div>
-
-          <div>
-            <h1 className="text-lg font-bold mt-6 lg:mt-0">Call Us</h1>
-            <div className="flex justify-between gap-4">
-              <div className="text-xs flex flex-col">
-                <a href={`tel:373793`}>+79627636278</a>
-                <a href={`tel:376237623`}>+683266863687</a>
-                <a href={`tel:2967939`}>+69823569562</a>
-              </div>
-            </div>
-            <h1 className="text-md font-bold mt-6">E-Mail</h1>
-            <a href={`mailto:ggdys@ggdy.com`}>samoagbv@gmail.com</a>
-          </div>
-        </div>
-        <div className="mt-4 pt-2 border-t-2 border-t-white text-white">
-          <div className="flex flex-col lg:flex-row justify-center items-center gap-2 lg:gap-4 text-xs text-semibold">
-            <Link href={"/aboutUs"}>Return Policy</Link>
-            <Link href={"/aboutUs"}>Customer Support</Link>
-            <Link href={"/aboutUs"}>Terms and Conditions</Link>
-          </div>
-          <p className="font-semibold text-xs text-center mt-4 mb-12">
-            Copyright 2023 GBV SAMOA. All rights reserved
-          </p>
-        </div>
-      </div>
+      <Footer />
     </main>
   );
 }

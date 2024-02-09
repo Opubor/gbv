@@ -1,19 +1,66 @@
+"use client";
+import SearchReports from "@/components/SearchReports";
 import { getAllCases } from "@/services/case";
 import { getAllPerpetrators } from "@/services/perpetratorDetails";
 import { getAllVictims } from "@/services/victimDetails";
-import React from "react";
+import { useSearchParams } from "next/navigation";
+import React, { useEffect, useState } from "react";
 import { TbReportSearch } from "react-icons/tb";
 
-async function Page() {
-  const allCases = await getAllCases();
-  const allVictims = await getAllVictims();
-  const allPerpetrators = await getAllPerpetrators();
+function Page() {
+  const searchParams = useSearchParams();
+  const getYear = searchParams.get("year");
+
+  const [search, setSearch] = useState("2024");
+  const [loading, setLoading] = useState(false);
+  const [allPerpetrators, setAllPerpetrators] = useState<any>();
+  const [allVictims, setAllVictims] = useState<any>();
+
+  const getAllVictims = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch(`/api/victimDetails/`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      });
+      setLoading(false);
+      let res = await response.json();
+      console.log(res);
+      return setAllVictims(res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const getAllPerpetrators = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch(`/api/perpetratorDetails/`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      });
+      setLoading(false);
+      let res = await response.json();
+      console.log(res);
+      return setAllPerpetrators(res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getAllVictims();
+    getAllPerpetrators();
+    setSearch(getYear ? getYear : "2024");
+  }, [getYear]);
 
   return (
     <div className="bg-white rounded-lg p-4 w-full">
       <div className="flex justify-center text-darkTheme items-center text-xl font-semibold bg-purple-50 py-2 rounded-t-lg mb-2">
         <TbReportSearch className="text-2xl" /> <p>PERPETRATOR REPORTS</p>
       </div>
+
+      {/* ===Select a Year=== */}
+      <SearchReports />
 
       {/* =======All Reports====== */}
       <div>
@@ -47,55 +94,66 @@ async function Page() {
                 <td className="border-r border-r-black">Urban</td>
                 <td className="border-r border-r-black">
                   {
-                    allPerpetrators.filter((data?) => {
+                    allPerpetrators?.filter((data: any) => {
                       return (
                         data?.case?.region === "Urban" &&
-                        data?.age === "Under 18"
+                        data?.age === "Under 18" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allPerpetrators.filter((data?) => {
+                    allPerpetrators?.filter((data: any) => {
                       return (
-                        data?.case?.region === "Urban" && data?.age === "18-24"
+                        data?.case?.region === "Urban" &&
+                        data?.age === "18-24" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allPerpetrators.filter((data?) => {
+                    allPerpetrators?.filter((data: any) => {
                       return (
-                        data?.case?.region === "Urban" && data?.age === "25-39"
+                        data?.case?.region === "Urban" &&
+                        data?.age === "25-39" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allPerpetrators.filter((data?) => {
+                    allPerpetrators?.filter((data: any) => {
                       return (
-                        data?.case?.region === "Urban" && data?.age === "40-49"
+                        data?.case?.region === "Urban" &&
+                        data?.age === "40-49" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allPerpetrators.filter((data?) => {
+                    allPerpetrators?.filter((data: any) => {
                       return (
-                        data?.case?.region === "Urban" && data?.age === "50-59"
+                        data?.case?.region === "Urban" &&
+                        data?.age === "50-59" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td>
                   {
-                    allPerpetrators.filter((data?) => {
+                    allPerpetrators?.filter((data: any) => {
                       return (
-                        data?.case?.region === "Urban" && data?.age === "60+"
+                        data?.case?.region === "Urban" &&
+                        data?.age === "60+" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
@@ -107,55 +165,66 @@ async function Page() {
                 <td className="border-r border-r-black">Rural</td>
                 <td className="border-r border-r-black">
                   {
-                    allPerpetrators.filter((data?) => {
+                    allPerpetrators?.filter((data: any) => {
                       return (
                         data?.case?.region === "Rural" &&
-                        data?.age === "Under 18"
+                        data?.age === "Under 18" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allPerpetrators.filter((data?) => {
+                    allPerpetrators?.filter((data: any) => {
                       return (
-                        data?.case?.region === "Rural" && data?.age === "18-24"
+                        data?.case?.region === "Rural" &&
+                        data?.age === "18-24" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allPerpetrators.filter((data?) => {
+                    allPerpetrators?.filter((data: any) => {
                       return (
-                        data?.case?.region === "Rural" && data?.age === "25-39"
+                        data?.case?.region === "Rural" &&
+                        data?.age === "25-39" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allPerpetrators.filter((data?) => {
+                    allPerpetrators?.filter((data: any) => {
                       return (
-                        data?.case?.region === "Rural" && data?.age === "40-49"
+                        data?.case?.region === "Rural" &&
+                        data?.age === "40-49" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allPerpetrators.filter((data?) => {
+                    allPerpetrators?.filter((data: any) => {
                       return (
-                        data?.case?.region === "Rural" && data?.age === "50-59"
+                        data?.case?.region === "Rural" &&
+                        data?.age === "50-59" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td>
                   {
-                    allPerpetrators.filter((data?) => {
+                    allPerpetrators?.filter((data: any) => {
                       return (
-                        data?.case?.region === "Rural" && data?.age === "60+"
+                        data?.case?.region === "Rural" &&
+                        data?.age === "60+" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
@@ -164,46 +233,64 @@ async function Page() {
 
               {/* ===Total=== */}
               <tr className="border-t border-t-black py-4 hover:bg-gray-50 text-center font-bold">
-                <td className="border-r border-r-black">Rural</td>
+                <td className="border-r border-r-black">Total</td>
                 <td className="border-r border-r-black">
                   {
-                    allPerpetrators.filter((data?) => {
-                      return data?.age === "Under 18";
+                    allPerpetrators?.filter((data: any) => {
+                      return (
+                        data?.age === "Under 18" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
+                      );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allPerpetrators.filter((data?) => {
-                      return data?.age === "18-24";
+                    allPerpetrators?.filter((data: any) => {
+                      return (
+                        data?.age === "18-24" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
+                      );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allPerpetrators.filter((data?) => {
-                      return data?.age === "25-39";
+                    allPerpetrators?.filter((data: any) => {
+                      return (
+                        data?.age === "25-39" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
+                      );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allPerpetrators.filter((data?) => {
-                      return data?.age === "40-49";
+                    allPerpetrators?.filter((data: any) => {
+                      return (
+                        data?.age === "40-49" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
+                      );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allPerpetrators.filter((data?) => {
-                      return data?.age === "50-59";
+                    allPerpetrators?.filter((data: any) => {
+                      return (
+                        data?.age === "50-59" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
+                      );
                     }).length
                   }
                 </td>
                 <td>
                   {
-                    allPerpetrators.filter((data?) => {
-                      return data?.age === "60+";
+                    allPerpetrators?.filter((data: any) => {
+                      return (
+                        data?.age === "60+" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
+                      );
                     }).length
                   }
                 </td>
@@ -240,32 +327,35 @@ async function Page() {
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data?) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Urban" &&
                         data?.perpetratorSurvivorRelationship ===
-                          "CURRENT male partner"
+                          "CURRENT male partner" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data?) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Rural" &&
                         data?.perpetratorSurvivorRelationship ===
-                          "CURRENT male partner"
+                          "CURRENT male partner" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
-                <td>
+                <td className="font-bold">
                   {
-                    allVictims.filter((data?) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.perpetratorSurvivorRelationship ===
-                        "CURRENT male partner"
+                          "CURRENT male partner" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
@@ -276,32 +366,35 @@ async function Page() {
                 <td className="border-r border-r-black">PAST male partner</td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data?) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Urban" &&
                         data?.perpetratorSurvivorRelationship ===
-                          "PAST male partner"
+                          "PAST male partner" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data?) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Rural" &&
                         data?.perpetratorSurvivorRelationship ===
-                          "PAST male partner"
+                          "PAST male partner" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
-                <td>
+                <td className="font-bold">
                   {
-                    allVictims.filter((data?) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.perpetratorSurvivorRelationship ===
-                        "PAST male partner"
+                          "PAST male partner" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
@@ -314,32 +407,35 @@ async function Page() {
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data?) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Urban" &&
                         data?.perpetratorSurvivorRelationship ===
-                          "CURRENT female partner"
+                          "CURRENT female partner" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data?) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Rural" &&
                         data?.perpetratorSurvivorRelationship ===
-                          "CURRENT female partner"
+                          "CURRENT female partner" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
-                <td>
+                <td className="font-bold">
                   {
-                    allVictims.filter((data?) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.perpetratorSurvivorRelationship ===
-                        "CURRENT female partner"
+                          "CURRENT female partner" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
@@ -350,32 +446,35 @@ async function Page() {
                 <td className="border-r border-r-black">PAST female partner</td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data?) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Urban" &&
                         data?.perpetratorSurvivorRelationship ===
-                          "PAST female partner"
+                          "PAST female partner" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data?) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Rural" &&
                         data?.perpetratorSurvivorRelationship ===
-                          "PAST female partner"
+                          "PAST female partner" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
-                <td>
+                <td className="font-bold">
                   {
-                    allVictims.filter((data?) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.perpetratorSurvivorRelationship ===
-                        "PAST female partner"
+                          "PAST female partner" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
@@ -388,32 +487,35 @@ async function Page() {
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data?) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Urban" &&
                         data?.perpetratorSurvivorRelationship ===
-                          "Mother/ step-mother/ adoptive mother"
+                          "Mother/ step-mother/ adoptive mother" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data?) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Rural" &&
                         data?.perpetratorSurvivorRelationship ===
-                          "Mother/ step-mother/ adoptive mother"
+                          "Mother/ step-mother/ adoptive mother" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
-                <td>
+                <td className="font-bold">
                   {
-                    allVictims.filter((data?) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.perpetratorSurvivorRelationship ===
-                        "Mother/ step-mother/ adoptive mother"
+                          "Mother/ step-mother/ adoptive mother" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
@@ -426,32 +528,35 @@ async function Page() {
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data?) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Urban" &&
                         data?.perpetratorSurvivorRelationship ===
-                          "Father/ step-father/ adoptive father"
+                          "Father/ step-father/ adoptive father" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data?) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Rural" &&
                         data?.perpetratorSurvivorRelationship ===
-                          "Father/ step-father/ adoptive father"
+                          "Father/ step-father/ adoptive father" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
-                <td>
+                <td className="font-bold">
                   {
-                    allVictims.filter((data?) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.perpetratorSurvivorRelationship ===
-                        "Father/ step-father/ adoptive father"
+                          "Father/ step-father/ adoptive father" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
@@ -462,32 +567,35 @@ async function Page() {
                 <td className="border-r border-r-black">Father-in-law</td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data?) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Urban" &&
                         data?.perpetratorSurvivorRelationship ===
-                          "Father-in-law"
+                          "Father-in-law" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data?) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Rural" &&
                         data?.perpetratorSurvivorRelationship ===
-                          "Father-in-law"
+                          "Father-in-law" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
-                <td>
+                <td className="font-bold">
                   {
-                    allVictims.filter((data?) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.perpetratorSurvivorRelationship ===
-                        "Father-in-law"
+                          "Father-in-law" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
@@ -498,32 +606,35 @@ async function Page() {
                 <td className="border-r border-r-black">Mother-in-law</td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data?) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Urban" &&
                         data?.perpetratorSurvivorRelationship ===
-                          "Mother-in-law"
+                          "Mother-in-law" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data?) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Rural" &&
                         data?.perpetratorSurvivorRelationship ===
-                          "Mother-in-law"
+                          "Mother-in-law" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
-                <td>
+                <td className="font-bold">
                   {
-                    allVictims.filter((data?) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.perpetratorSurvivorRelationship ===
-                        "Mother-in-law"
+                          "Mother-in-law" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
@@ -534,28 +645,33 @@ async function Page() {
                 <td className="border-r border-r-black">
                   {" "}
                   {
-                    allVictims.filter((data?) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Urban" &&
-                        data?.perpetratorSurvivorRelationship === "Aunt"
+                        data?.perpetratorSurvivorRelationship === "Aunt" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data?) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Rural" &&
-                        data?.perpetratorSurvivorRelationship === "Aunt"
+                        data?.perpetratorSurvivorRelationship === "Aunt" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
-                <td>
+                <td className="font-bold">
                   {
-                    allVictims.filter((data?) => {
-                      return data?.perpetratorSurvivorRelationship === "Aunt";
+                    allVictims?.filter((data: any) => {
+                      return (
+                        data?.perpetratorSurvivorRelationship === "Aunt" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
+                      );
                     }).length
                   }
                 </td>
@@ -565,10 +681,11 @@ async function Page() {
                 <td className="border-r border-r-black">
                   {" "}
                   {
-                    allVictims.filter((data?) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Urban" &&
-                        data?.perpetratorSurvivorRelationship === "Uncle"
+                        data?.perpetratorSurvivorRelationship === "Uncle" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
@@ -576,19 +693,23 @@ async function Page() {
                 <td className="border-r border-r-black">
                   {" "}
                   {
-                    allVictims.filter((data?) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Rural" &&
-                        data?.perpetratorSurvivorRelationship === "Uncle"
+                        data?.perpetratorSurvivorRelationship === "Uncle" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
-                <td>
+                <td className="font-bold">
                   {" "}
                   {
-                    allVictims.filter((data?) => {
-                      return data?.perpetratorSurvivorRelationship === "Uncle";
+                    allVictims?.filter((data: any) => {
+                      return (
+                        data?.perpetratorSurvivorRelationship === "Uncle" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
+                      );
                     }).length
                   }
                 </td>
@@ -599,10 +720,11 @@ async function Page() {
                 <td className="border-r border-r-black">
                   {" "}
                   {
-                    allVictims.filter((data?) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Urban" &&
-                        data?.perpetratorSurvivorRelationship === "Brother"
+                        data?.perpetratorSurvivorRelationship === "Brother" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
@@ -610,20 +732,22 @@ async function Page() {
                 <td className="border-r border-r-black">
                   {" "}
                   {
-                    allVictims.filter((data?) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Rural" &&
-                        data?.perpetratorSurvivorRelationship === "Brother"
+                        data?.perpetratorSurvivorRelationship === "Brother" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
-                <td>
+                <td className="font-bold">
                   {" "}
                   {
-                    allVictims.filter((data?) => {
+                    allVictims?.filter((data: any) => {
                       return (
-                        data?.perpetratorSurvivorRelationship === "Brother"
+                        data?.perpetratorSurvivorRelationship === "Brother" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
@@ -635,10 +759,11 @@ async function Page() {
                 <td className="border-r border-r-black">
                   {" "}
                   {
-                    allVictims.filter((data?) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Urban" &&
-                        data?.perpetratorSurvivorRelationship === "Sister"
+                        data?.perpetratorSurvivorRelationship === "Sister" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
@@ -646,19 +771,23 @@ async function Page() {
                 <td className="border-r border-r-black">
                   {" "}
                   {
-                    allVictims.filter((data?) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Rural" &&
-                        data?.perpetratorSurvivorRelationship === "Sister"
+                        data?.perpetratorSurvivorRelationship === "Sister" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
-                <td>
+                <td className="font-bold">
                   {" "}
                   {
-                    allVictims.filter((data?) => {
-                      return data?.perpetratorSurvivorRelationship === "Sister";
+                    allVictims?.filter((data: any) => {
+                      return (
+                        data?.perpetratorSurvivorRelationship === "Sister" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
+                      );
                     }).length
                   }
                 </td>
@@ -669,10 +798,12 @@ async function Page() {
                 <td className="border-r border-r-black">
                   {" "}
                   {
-                    allVictims.filter((data?) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Urban" &&
-                        data?.perpetratorSurvivorRelationship === "Grandmother"
+                        data?.perpetratorSurvivorRelationship ===
+                          "Grandmother" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
@@ -680,20 +811,24 @@ async function Page() {
                 <td className="border-r border-r-black">
                   {" "}
                   {
-                    allVictims.filter((data?) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Rural" &&
-                        data?.perpetratorSurvivorRelationship === "Grandmother"
+                        data?.perpetratorSurvivorRelationship ===
+                          "Grandmother" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
-                <td>
+                <td className="font-bold">
                   {" "}
                   {
-                    allVictims.filter((data?) => {
+                    allVictims?.filter((data: any) => {
                       return (
-                        data?.perpetratorSurvivorRelationship === "Grandmother"
+                        data?.perpetratorSurvivorRelationship ===
+                          "Grandmother" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
@@ -705,10 +840,12 @@ async function Page() {
                 <td className="border-r border-r-black">
                   {" "}
                   {
-                    allVictims.filter((data?) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Urban" &&
-                        data?.perpetratorSurvivorRelationship === "Grandfather"
+                        data?.perpetratorSurvivorRelationship ===
+                          "Grandfather" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
@@ -716,20 +853,24 @@ async function Page() {
                 <td className="border-r border-r-black">
                   {" "}
                   {
-                    allVictims.filter((data?) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Rural" &&
-                        data?.perpetratorSurvivorRelationship === "Grandfather"
+                        data?.perpetratorSurvivorRelationship ===
+                          "Grandfather" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
-                <td>
+                <td className="font-bold">
                   {" "}
                   {
-                    allVictims.filter((data?) => {
+                    allVictims?.filter((data: any) => {
                       return (
-                        data?.perpetratorSurvivorRelationship === "Grandfather"
+                        data?.perpetratorSurvivorRelationship ===
+                          "Grandfather" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
@@ -741,11 +882,12 @@ async function Page() {
                 <td className="border-r border-r-black">
                   {" "}
                   {
-                    allVictims.filter((data?) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Urban" &&
                         data?.perpetratorSurvivorRelationship ===
-                          "Other relative male"
+                          "Other relative male" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
@@ -753,22 +895,24 @@ async function Page() {
                 <td className="border-r border-r-black">
                   {" "}
                   {
-                    allVictims.filter((data?) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Rural" &&
                         data?.perpetratorSurvivorRelationship ===
-                          "Other relative male"
+                          "Other relative male" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
-                <td>
+                <td className="font-bold">
                   {" "}
                   {
-                    allVictims.filter((data?) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.perpetratorSurvivorRelationship ===
-                        "Other relative male"
+                          "Other relative male" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
@@ -782,11 +926,12 @@ async function Page() {
                 <td className="border-r border-r-black">
                   {" "}
                   {
-                    allVictims.filter((data?) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Urban" &&
                         data?.perpetratorSurvivorRelationship ===
-                          "Other relative female"
+                          "Other relative female" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
@@ -794,22 +939,24 @@ async function Page() {
                 <td className="border-r border-r-black">
                   {" "}
                   {
-                    allVictims.filter((data?) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Rural" &&
                         data?.perpetratorSurvivorRelationship ===
-                          "Other relative female"
+                          "Other relative female" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
-                <td>
+                <td className="font-bold">
                   {" "}
                   {
-                    allVictims.filter((data?) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.perpetratorSurvivorRelationship ===
-                        "Other relative female"
+                          "Other relative female" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
@@ -821,11 +968,12 @@ async function Page() {
                 <td className="border-r border-r-black">
                   {" "}
                   {
-                    allVictims.filter((data?) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Urban" &&
                         data?.perpetratorSurvivorRelationship ===
-                          "Community leader"
+                          "Community leader" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
@@ -833,22 +981,24 @@ async function Page() {
                 <td className="border-r border-r-black">
                   {" "}
                   {
-                    allVictims.filter((data?) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Rural" &&
                         data?.perpetratorSurvivorRelationship ===
-                          "Community leader"
+                          "Community leader" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
-                <td>
+                <td className="font-bold">
                   {" "}
                   {
-                    allVictims.filter((data?) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.perpetratorSurvivorRelationship ===
-                        "Community leader"
+                          "Community leader" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
@@ -860,10 +1010,12 @@ async function Page() {
                 <td className="border-r border-r-black">
                   {" "}
                   {
-                    allVictims.filter((data?) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Urban" &&
-                        data?.perpetratorSurvivorRelationship === "Faith leader"
+                        data?.perpetratorSurvivorRelationship ===
+                          "Faith leader" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
@@ -871,20 +1023,24 @@ async function Page() {
                 <td className="border-r border-r-black">
                   {" "}
                   {
-                    allVictims.filter((data?) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Rural" &&
-                        data?.perpetratorSurvivorRelationship === "Faith leader"
+                        data?.perpetratorSurvivorRelationship ===
+                          "Faith leader" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
-                <td>
+                <td className="font-bold">
                   {" "}
                   {
-                    allVictims.filter((data?) => {
+                    allVictims?.filter((data: any) => {
                       return (
-                        data?.perpetratorSurvivorRelationship === "Faith leader"
+                        data?.perpetratorSurvivorRelationship ===
+                          "Faith leader" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
@@ -896,11 +1052,12 @@ async function Page() {
                 <td className="border-r border-r-black">
                   {" "}
                   {
-                    allVictims.filter((data?) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Urban" &&
                         data?.perpetratorSurvivorRelationship ===
-                          "Work colleague"
+                          "Work colleague" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
@@ -908,22 +1065,24 @@ async function Page() {
                 <td className="border-r border-r-black">
                   {" "}
                   {
-                    allVictims.filter((data?) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Rural" &&
                         data?.perpetratorSurvivorRelationship ===
-                          "Work colleague"
+                          "Work colleague" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
-                <td>
+                <td className="font-bold">
                   {" "}
                   {
-                    allVictims.filter((data?) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.perpetratorSurvivorRelationship ===
-                        "Work colleague"
+                          "Work colleague" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
@@ -937,11 +1096,12 @@ async function Page() {
                 <td className="border-r border-r-black">
                   {" "}
                   {
-                    allVictims.filter((data?) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Urban" &&
                         data?.perpetratorSurvivorRelationship ===
-                          "Supervisor/ Employer"
+                          "Supervisor/ Employer" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
@@ -949,22 +1109,24 @@ async function Page() {
                 <td className="border-r border-r-black">
                   {" "}
                   {
-                    allVictims.filter((data?) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Rural" &&
                         data?.perpetratorSurvivorRelationship ===
-                          "Supervisor/ Employer"
+                          "Supervisor/ Employer" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
-                <td>
+                <td className="font-bold">
                   {" "}
                   {
-                    allVictims.filter((data?) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.perpetratorSurvivorRelationship ===
-                        "Supervisor/ Employer"
+                          "Supervisor/ Employer" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
@@ -977,32 +1139,35 @@ async function Page() {
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data?) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Urban" &&
                         data?.perpetratorSurvivorRelationship ===
-                          "Teacher/ School official"
+                          "Teacher/ School official" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data?) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Rural" &&
                         data?.perpetratorSurvivorRelationship ===
-                          "Teacher/ School official"
+                          "Teacher/ School official" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
-                <td>
+                <td className="font-bold">
                   {
-                    allVictims.filter((data?) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.perpetratorSurvivorRelationship ===
-                        "Teacher/ School official"
+                          "Teacher/ School official" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
@@ -1013,32 +1178,35 @@ async function Page() {
                 <td className="border-r border-r-black">School friend</td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data?) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Urban" &&
                         data?.perpetratorSurvivorRelationship ===
-                          "School friend"
+                          "School friend" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data?) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Rural" &&
                         data?.perpetratorSurvivorRelationship ===
-                          "School friend"
+                          "School friend" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
-                <td>
+                <td className="font-bold">
                   {
-                    allVictims.filter((data?) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.perpetratorSurvivorRelationship ===
-                        "School friend"
+                          "School friend" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
@@ -1051,11 +1219,12 @@ async function Page() {
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data?) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Urban" &&
                         data?.perpetratorSurvivorRelationship ===
-                          "Service Provider/ shop keeper"
+                          "Service Provider/ shop keeper" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
@@ -1063,22 +1232,24 @@ async function Page() {
                 <td className="border-r border-r-black">
                   {" "}
                   {
-                    allVictims.filter((data?) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Rural" &&
                         data?.perpetratorSurvivorRelationship ===
-                          "Service Provider/ shop keeper"
+                          "Service Provider/ shop keeper" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
-                <td>
+                <td className="font-bold">
                   {" "}
                   {
-                    allVictims.filter((data?) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.perpetratorSurvivorRelationship ===
-                        "Service Provider/ shop keeper"
+                          "Service Provider/ shop keeper" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
@@ -1091,32 +1262,35 @@ async function Page() {
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data?) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Urban" &&
                         data?.perpetratorSurvivorRelationship ===
-                          "Family friend/ Neighbour"
+                          "Family friend/ Neighbour" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data?) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Rural" &&
                         data?.perpetratorSurvivorRelationship ===
-                          "Family friend/ Neighbour"
+                          "Family friend/ Neighbour" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
-                <td>
+                <td className="font-bold">
                   {
-                    allVictims.filter((data?) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.perpetratorSurvivorRelationship ===
-                        "Family friend/ Neighbour"
+                          "Family friend/ Neighbour" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
@@ -1129,32 +1303,35 @@ async function Page() {
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data?) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Urban" &&
                         data?.perpetratorSurvivorRelationship ===
-                          "Other community member"
+                          "Other community member" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data?) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Rural" &&
                         data?.perpetratorSurvivorRelationship ===
-                          "Other community member"
+                          "Other community member" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
-                <td>
+                <td className="font-bold">
                   {
-                    allVictims.filter((data?) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.perpetratorSurvivorRelationship ===
-                        "Other community member"
+                          "Other community member" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
@@ -1165,29 +1342,32 @@ async function Page() {
                 <td className="border-r border-r-black">Stranger</td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data?) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Urban" &&
-                        data?.perpetratorSurvivorRelationship === "Stranger"
+                        data?.perpetratorSurvivorRelationship === "Stranger" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data?) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Rural" &&
-                        data?.perpetratorSurvivorRelationship === "Stranger"
+                        data?.perpetratorSurvivorRelationship === "Stranger" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
-                <td>
+                <td className="font-bold">
                   {
-                    allVictims.filter((data?) => {
+                    allVictims?.filter((data: any) => {
                       return (
-                        data?.perpetratorSurvivorRelationship === "Stranger"
+                        data?.perpetratorSurvivorRelationship === "Stranger" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
@@ -1198,29 +1378,35 @@ async function Page() {
                 <td className="border-r border-r-black">No relation</td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data?) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Urban" &&
-                        data?.perpetratorSurvivorRelationship === "No relation"
+                        data?.perpetratorSurvivorRelationship ===
+                          "No relation" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data?) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Rural" &&
-                        data?.perpetratorSurvivorRelationship === "No relation"
+                        data?.perpetratorSurvivorRelationship ===
+                          "No relation" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
-                <td>
+                <td className="font-bold">
                   {
-                    allVictims.filter((data?) => {
+                    allVictims?.filter((data: any) => {
                       return (
-                        data?.perpetratorSurvivorRelationship === "No relation"
+                        data?.perpetratorSurvivorRelationship ===
+                          "No relation" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
@@ -1230,28 +1416,33 @@ async function Page() {
                 <td className="border-r border-r-black">Others</td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data?) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Urban" &&
-                        data?.perpetratorSurvivorRelationship === "Others"
+                        data?.perpetratorSurvivorRelationship === "Others" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data?) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Rural" &&
-                        data?.perpetratorSurvivorRelationship === "Others"
+                        data?.perpetratorSurvivorRelationship === "Others" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
-                <td>
+                <td className="font-bold">
                   {
-                    allVictims.filter((data?) => {
-                      return data?.perpetratorSurvivorRelationship === "Others";
+                    allVictims?.filter((data: any) => {
+                      return (
+                        data?.perpetratorSurvivorRelationship === "Others" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
+                      );
                     }).length
                   }
                 </td>

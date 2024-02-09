@@ -1,23 +1,63 @@
-import { getAllCases } from "@/services/case";
-import { getAllVictims } from "@/services/victimDetails";
-import React from "react";
+"use client";
+import SearchReports from "@/components/SearchReports";
+import { useSearchParams } from "next/navigation";
+import React, { useEffect, useState } from "react";
 import { TbReportSearch } from "react-icons/tb";
 
-async function Page() {
-  const allCases = await getAllCases();
-  const allVictims = await getAllVictims();
-  // let date1 = new Date("01/16/2024");
-  // let date2 = new Date("01/26/2024");
+function Page() {
+  const searchParams = useSearchParams();
+  const getYear = searchParams.get("year");
 
-  // let Difference_In_Time = date2.getTime() - date1.getTime();
+  const [search, setSearch] = useState("2024");
+  const [loading, setLoading] = useState(false);
+  const [allCases, setCases] = useState<any>();
+  const [allVictims, setAllVictims] = useState<any>();
 
-  // let Difference_In_Days = Math.round(Difference_In_Time / (1000 * 3600 * 24));
-  // console.log(Difference_In_Days);
+  const getAllCases = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch(`/api/case/`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      });
+      setLoading(false);
+      let res = await response.json();
+      return setCases(res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getAllVictims = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch(`/api/victimDetails/`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      });
+      setLoading(false);
+      let res = await response.json();
+      console.log(res);
+      return setAllVictims(res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getAllCases();
+    getAllVictims();
+    setSearch(getYear ? getYear : "2024");
+  }, [getYear]);
+
   return (
     <div className="bg-white rounded-lg p-4 w-full">
       <div className="flex justify-center text-darkTheme items-center text-xl font-semibold bg-purple-50 py-2 rounded-t-lg mb-2">
         <TbReportSearch className="text-2xl" /> <p>SURVIVOR REPORTS</p>
       </div>
+
+      {/* ===Select a Year=== */}
+      <SearchReports />
 
       {/* =======All Reports====== */}
       <div>
@@ -56,120 +96,133 @@ async function Page() {
                 <td className="border-r border-r-black">Urban</td>
                 <td className="border-r border-r-black">
                   {
-                    allCases.filter((data: any) => {
+                    allCases?.filter((data: any) => {
                       return (
                         data?.region === "Urban" &&
-                        data?.registrationDate.slice(5, -3) === "01"
+                        data?.registrationDate.slice(5, -3) === "01" &&
+                        data?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allCases.filter((data: any) => {
+                    allCases?.filter((data: any) => {
                       return (
                         data?.region === "Urban" &&
-                        data?.registrationDate.slice(5, -3) === "02"
+                        data?.registrationDate.slice(5, -3) === "02" &&
+                        data?.registrationDate.slice(0, -6) === search
+                      );
+                    }).length
+                  }
+                  {/* {search} */}
+                </td>
+                <td className="border-r border-r-black">
+                  {
+                    allCases?.filter((data: any) => {
+                      return (
+                        data?.region === "Urban" &&
+                        data?.registrationDate.slice(5, -3) === "03" &&
+                        data?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allCases.filter((data: any) => {
+                    allCases?.filter((data: any) => {
                       return (
                         data?.region === "Urban" &&
-                        data?.registrationDate.slice(5, -3) === "03"
+                        data?.registrationDate.slice(5, -3) === "04" &&
+                        data?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allCases.filter((data: any) => {
+                    allCases?.filter((data: any) => {
                       return (
                         data?.region === "Urban" &&
-                        data?.registrationDate.slice(5, -3) === "04"
+                        data?.registrationDate.slice(5, -3) === "05" &&
+                        data?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allCases.filter((data: any) => {
+                    allCases?.filter((data: any) => {
                       return (
                         data?.region === "Urban" &&
-                        data?.registrationDate.slice(5, -3) === "05"
+                        data?.registrationDate.slice(5, -3) === "06" &&
+                        data?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allCases.filter((data: any) => {
+                    allCases?.filter((data: any) => {
                       return (
                         data?.region === "Urban" &&
-                        data?.registrationDate.slice(5, -3) === "06"
+                        data?.registrationDate.slice(5, -3) === "07" &&
+                        data?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allCases.filter((data: any) => {
+                    allCases?.filter((data: any) => {
                       return (
                         data?.region === "Urban" &&
-                        data?.registrationDate.slice(5, -3) === "07"
+                        data?.registrationDate.slice(5, -3) === "08" &&
+                        data?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allCases.filter((data: any) => {
+                    allCases?.filter((data: any) => {
                       return (
                         data?.region === "Urban" &&
-                        data?.registrationDate.slice(5, -3) === "08"
+                        data?.registrationDate.slice(5, -3) === "09" &&
+                        data?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allCases.filter((data: any) => {
+                    allCases?.filter((data: any) => {
                       return (
                         data?.region === "Urban" &&
-                        data?.registrationDate.slice(5, -3) === "09"
+                        data?.registrationDate.slice(5, -3) === "10" &&
+                        data?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allCases.filter((data: any) => {
+                    allCases?.filter((data: any) => {
                       return (
                         data?.region === "Urban" &&
-                        data?.registrationDate.slice(5, -3) === "10"
-                      );
-                    }).length
-                  }
-                </td>
-                <td className="border-r border-r-black">
-                  {
-                    allCases.filter((data: any) => {
-                      return (
-                        data?.region === "Urban" &&
-                        data?.registrationDate.slice(5, -3) === "11"
+                        data?.registrationDate.slice(5, -3) === "11" &&
+                        data?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td>
                   {
-                    allCases.filter((data: any) => {
+                    allCases?.filter((data: any) => {
                       return (
                         data?.region === "Urban" &&
-                        data?.registrationDate.slice(5, -3) === "12"
+                        data?.registrationDate.slice(5, -3) === "12" &&
+                        data?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
@@ -180,120 +233,132 @@ async function Page() {
                 <td className="border-r border-r-black">Rural</td>
                 <td className="border-r border-r-black">
                   {
-                    allCases.filter((data: any) => {
+                    allCases?.filter((data: any) => {
                       return (
                         data?.region === "Rural" &&
-                        data?.registrationDate.slice(5, -3) === "01"
+                        data?.registrationDate.slice(5, -3) === "01" &&
+                        data?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allCases.filter((data: any) => {
+                    allCases?.filter((data: any) => {
                       return (
                         data?.region === "Rural" &&
-                        data?.registrationDate.slice(5, -3) === "02"
+                        data?.registrationDate.slice(5, -3) === "02" &&
+                        data?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allCases.filter((data: any) => {
+                    allCases?.filter((data: any) => {
                       return (
                         data?.region === "Rural" &&
-                        data?.registrationDate.slice(5, -3) === "03"
+                        data?.registrationDate.slice(5, -3) === "03" &&
+                        data?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allCases.filter((data: any) => {
+                    allCases?.filter((data: any) => {
                       return (
                         data?.region === "Rural" &&
-                        data?.registrationDate.slice(5, -3) === "04"
+                        data?.registrationDate.slice(5, -3) === "04" &&
+                        data?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allCases.filter((data: any) => {
+                    allCases?.filter((data: any) => {
                       return (
                         data?.region === "Rural" &&
-                        data?.registrationDate.slice(5, -3) === "05"
+                        data?.registrationDate.slice(5, -3) === "05" &&
+                        data?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allCases.filter((data: any) => {
+                    allCases?.filter((data: any) => {
                       return (
                         data?.region === "Rural" &&
-                        data?.registrationDate.slice(5, -3) === "06"
+                        data?.registrationDate.slice(5, -3) === "06" &&
+                        data?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allCases.filter((data: any) => {
+                    allCases?.filter((data: any) => {
                       return (
                         data?.region === "Rural" &&
-                        data?.registrationDate.slice(5, -3) === "07"
+                        data?.registrationDate.slice(5, -3) === "07" &&
+                        data?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allCases.filter((data: any) => {
+                    allCases?.filter((data: any) => {
                       return (
                         data?.region === "Rural" &&
-                        data?.registrationDate.slice(5, -3) === "08"
+                        data?.registrationDate.slice(5, -3) === "08" &&
+                        data?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allCases.filter((data: any) => {
+                    allCases?.filter((data: any) => {
                       return (
                         data?.region === "Rural" &&
-                        data?.registrationDate.slice(5, -3) === "09"
+                        data?.registrationDate.slice(5, -3) === "09" &&
+                        data?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allCases.filter((data: any) => {
+                    allCases?.filter((data: any) => {
                       return (
                         data?.region === "Rural" &&
-                        data?.registrationDate.slice(5, -3) === "10"
+                        data?.registrationDate.slice(5, -3) === "10" &&
+                        data?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allCases.filter((data: any) => {
+                    allCases?.filter((data: any) => {
                       return (
                         data?.region === "Rural" &&
-                        data?.registrationDate.slice(5, -3) === "11"
+                        data?.registrationDate.slice(5, -3) === "11" &&
+                        data?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td>
                   {
-                    allCases.filter((data: any) => {
+                    allCases?.filter((data: any) => {
                       return (
                         data?.region === "Rural" &&
-                        data?.registrationDate.slice(5, -3) === "12"
+                        data?.registrationDate.slice(5, -3) === "12" &&
+                        data?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
@@ -304,85 +369,121 @@ async function Page() {
                 <td className="border-r border-r-black">Total</td>
                 <td className="border-r border-r-black">
                   {
-                    allCases.filter((data: any) => {
-                      return data?.registrationDate.slice(5, -3) === "01";
+                    allCases?.filter((data: any) => {
+                      return (
+                        data?.registrationDate.slice(5, -3) === "01" &&
+                        data?.registrationDate.slice(0, -6) === search
+                      );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allCases.filter((data: any) => {
-                      return data?.registrationDate.slice(5, -3) === "02";
+                    allCases?.filter((data: any) => {
+                      return (
+                        data?.registrationDate.slice(5, -3) === "02" &&
+                        data?.registrationDate.slice(0, -6) === search
+                      );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allCases.filter((data: any) => {
-                      return data?.registrationDate.slice(5, -3) === "03";
+                    allCases?.filter((data: any) => {
+                      return (
+                        data?.registrationDate.slice(5, -3) === "03" &&
+                        data?.registrationDate.slice(0, -6) === search
+                      );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allCases.filter((data: any) => {
-                      return data?.registrationDate.slice(5, -3) === "04";
+                    allCases?.filter((data: any) => {
+                      return (
+                        data?.registrationDate.slice(5, -3) === "04" &&
+                        data?.registrationDate.slice(0, -6) === search
+                      );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allCases.filter((data: any) => {
-                      return data?.registrationDate.slice(5, -3) === "05";
+                    allCases?.filter((data: any) => {
+                      return (
+                        data?.registrationDate.slice(5, -3) === "05" &&
+                        data?.registrationDate.slice(0, -6) === search
+                      );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allCases.filter((data: any) => {
-                      return data?.registrationDate.slice(5, -3) === "06";
+                    allCases?.filter((data: any) => {
+                      return (
+                        data?.registrationDate.slice(5, -3) === "06" &&
+                        data?.registrationDate.slice(0, -6) === search
+                      );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allCases.filter((data: any) => {
-                      return data?.registrationDate.slice(5, -3) === "07";
+                    allCases?.filter((data: any) => {
+                      return (
+                        data?.registrationDate.slice(5, -3) === "07" &&
+                        data?.registrationDate.slice(0, -6) === search
+                      );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allCases.filter((data: any) => {
-                      return data?.registrationDate.slice(5, -3) === "08";
+                    allCases?.filter((data: any) => {
+                      return (
+                        data?.registrationDate.slice(5, -3) === "08" &&
+                        data?.registrationDate.slice(0, -6) === search
+                      );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allCases.filter((data: any) => {
-                      return data?.registrationDate.slice(5, -3) === "09";
+                    allCases?.filter((data: any) => {
+                      return (
+                        data?.registrationDate.slice(5, -3) === "09" &&
+                        data?.registrationDate.slice(0, -6) === search
+                      );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allCases.filter((data: any) => {
-                      return data?.registrationDate.slice(5, -3) === "10";
+                    allCases?.filter((data: any) => {
+                      return (
+                        data?.registrationDate.slice(5, -3) === "10" &&
+                        data?.registrationDate.slice(0, -6) === search
+                      );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allCases.filter((data: any) => {
-                      return data?.registrationDate.slice(5, -3) === "11";
+                    allCases?.filter((data: any) => {
+                      return (
+                        data?.registrationDate.slice(5, -3) === "11" &&
+                        data?.registrationDate.slice(0, -6) === search
+                      );
                     }).length
                   }
                 </td>
                 <td>
                   {
-                    allCases.filter((data: any) => {
-                      return data?.registrationDate.slice(5, -3) === "12";
+                    allCases?.filter((data: any) => {
+                      return (
+                        data?.registrationDate.slice(5, -3) === "12" &&
+                        data?.registrationDate.slice(0, -6) === search
+                      );
                     }).length
                   }
                 </td>
@@ -422,80 +523,88 @@ async function Page() {
                 <td className="border-r border-r-black">Urban</td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Urban" &&
-                        data?.violenceType === "Physical"
+                        data?.violenceType === "Physical" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Urban" &&
-                        data?.violenceType === "Sexual"
+                        data?.violenceType === "Sexual" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Urban" &&
-                        data?.violenceType === "Emotional/psychological"
+                        data?.violenceType === "Emotional/psychological" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Urban" &&
-                        data?.violenceType === "Economic"
+                        data?.violenceType === "Economic" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Urban" &&
-                        data?.violenceType === "Exploitation"
+                        data?.violenceType === "Exploitation" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Urban" &&
-                        data?.violenceType === "Rape"
+                        data?.violenceType === "Rape" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Urban" &&
-                        data?.violenceType === "Forced marriage"
+                        data?.violenceType === "Forced marriage" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td>
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Urban" &&
-                        data?.violenceType === "Others"
+                        data?.violenceType === "Others" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
@@ -506,80 +615,88 @@ async function Page() {
                 <td className="border-r border-r-black">Rural</td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Rural" &&
-                        data?.violenceType === "Physical"
+                        data?.violenceType === "Physical" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Rural" &&
-                        data?.violenceType === "Sexual"
+                        data?.violenceType === "Sexual" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Rural" &&
-                        data?.violenceType === "Emotional/psychological"
+                        data?.violenceType === "Emotional/psychological" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Rural" &&
-                        data?.violenceType === "Economic"
+                        data?.violenceType === "Economic" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Rural" &&
-                        data?.violenceType === "Exploitation"
+                        data?.violenceType === "Exploitation" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Rural" &&
-                        data?.violenceType === "Rape"
+                        data?.violenceType === "Rape" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Rural" &&
-                        data?.violenceType === "Forced marriage"
+                        data?.violenceType === "Forced marriage" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td>
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Rural" &&
-                        data?.violenceType === "Others"
+                        data?.violenceType === "Others" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
@@ -590,57 +707,81 @@ async function Page() {
                 <td className="border-r border-r-black">Total</td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
-                      return data?.violenceType === "Physical";
+                    allVictims?.filter((data: any) => {
+                      return (
+                        data?.violenceType === "Physical" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
+                      );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
-                      return data?.violenceType === "Sexual";
+                    allVictims?.filter((data: any) => {
+                      return (
+                        data?.violenceType === "Sexual" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
+                      );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
-                      return data?.violenceType === "Emotional/psychological";
+                    allVictims?.filter((data: any) => {
+                      return (
+                        data?.violenceType === "Emotional/psychological" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
+                      );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
-                      return data?.violenceType === "Economic";
+                    allVictims?.filter((data: any) => {
+                      return (
+                        data?.violenceType === "Economic" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
+                      );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
-                      return data?.violenceType === "Exploitation";
+                    allVictims?.filter((data: any) => {
+                      return (
+                        data?.violenceType === "Exploitation" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
+                      );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
-                      return data?.violenceType === "Rape";
+                    allVictims?.filter((data: any) => {
+                      return (
+                        data?.violenceType === "Rape" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
+                      );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
-                      return data?.violenceType === "Forced marriage";
+                    allVictims?.filter((data: any) => {
+                      return (
+                        data?.violenceType === "Forced marriage" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
+                      );
                     }).length
                   }
                 </td>
                 <td>
                   {
-                    allVictims.filter((data: any) => {
-                      return data?.violenceType === "Others";
+                    allVictims?.filter((data: any) => {
+                      return (
+                        data?.violenceType === "Others" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
+                      );
                     }).length
                   }
                 </td>
@@ -676,37 +817,44 @@ async function Page() {
                 <td className="border-r border-r-black">Urban</td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
-                        data?.case?.region === "Urban" && data?.sex === "Male"
+                        data?.case?.region === "Urban" &&
+                        data?.sex === "Male" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
-                        data?.case?.region === "Urban" && data?.sex === "Female"
+                        data?.case?.region === "Urban" &&
+                        data?.sex === "Female" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
-                        data?.case?.region === "Urban" && data?.sex === "Trans"
+                        data?.case?.region === "Urban" &&
+                        data?.sex === "Trans" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td>
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Urban" &&
-                        data?.sex === "Not disclosed"
+                        data?.sex === "Not disclosed" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
@@ -717,37 +865,44 @@ async function Page() {
                 <td className="border-r border-r-black">Rural</td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
-                        data?.case?.region === "Rural" && data?.sex === "Male"
+                        data?.case?.region === "Rural" &&
+                        data?.sex === "Male" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
-                        data?.case?.region === "Rural" && data?.sex === "Female"
+                        data?.case?.region === "Rural" &&
+                        data?.sex === "Female" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
-                        data?.case?.region === "Rural" && data?.sex === "Trans"
+                        data?.case?.region === "Rural" &&
+                        data?.sex === "Trans" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td>
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Rural" &&
-                        data?.sex === "Not disclosed"
+                        data?.sex === "Not disclosed" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
@@ -758,29 +913,41 @@ async function Page() {
                 <td className="border-r border-r-black">Total</td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
-                      return data?.sex === "Male";
+                    allVictims?.filter((data: any) => {
+                      return (
+                        data?.sex === "Male" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
+                      );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
-                      return data?.sex === "Female";
+                    allVictims?.filter((data: any) => {
+                      return (
+                        data?.sex === "Female" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
+                      );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
-                      return data?.sex === "Trans";
+                    allVictims?.filter((data: any) => {
+                      return (
+                        data?.sex === "Trans" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
+                      );
                     }).length
                   }
                 </td>
                 <td>
                   {
-                    allVictims.filter((data: any) => {
-                      return data?.sex === "Not disclosed";
+                    allVictims?.filter((data: any) => {
+                      return (
+                        data?.sex === "Not disclosed" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
+                      );
                     }).length
                   }
                 </td>
@@ -818,55 +985,66 @@ async function Page() {
                 <td className="border-r border-r-black">Urban</td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Urban" &&
-                        data?.age === "Under 18"
+                        data?.age === "Under 18" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
-                        data?.case?.region === "Urban" && data?.age === "18-24"
+                        data?.case?.region === "Urban" &&
+                        data?.age === "18-24" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
-                        data?.case?.region === "Urban" && data?.age === "25-39"
+                        data?.case?.region === "Urban" &&
+                        data?.age === "25-39" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
-                        data?.case?.region === "Urban" && data?.age === "40-49"
+                        data?.case?.region === "Urban" &&
+                        data?.age === "40-49" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
-                        data?.case?.region === "Urban" && data?.age === "50-59"
+                        data?.case?.region === "Urban" &&
+                        data?.age === "50-59" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td>
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
-                        data?.case?.region === "Urban" && data?.age === "60+"
+                        data?.case?.region === "Urban" &&
+                        data?.age === "60+" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
@@ -877,55 +1055,66 @@ async function Page() {
                 <td className="border-r border-r-black">Rural</td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Rural" &&
-                        data?.age === "Under 18"
+                        data?.age === "Under 18" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
-                        data?.case?.region === "Rural" && data?.age === "18-24"
+                        data?.case?.region === "Rural" &&
+                        data?.age === "18-24" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
-                        data?.case?.region === "Rural" && data?.age === "25-39"
+                        data?.case?.region === "Rural" &&
+                        data?.age === "25-39" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
-                        data?.case?.region === "Rural" && data?.age === "40-49"
+                        data?.case?.region === "Rural" &&
+                        data?.age === "40-49" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
-                        data?.case?.region === "Rural" && data?.age === "50-59"
+                        data?.case?.region === "Rural" &&
+                        data?.age === "50-59" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td>
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
-                        data?.case?.region === "Rural" && data?.age === "60+"
+                        data?.case?.region === "Rural" &&
+                        data?.age === "60+" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
@@ -936,43 +1125,61 @@ async function Page() {
                 <td className="border-r border-r-black">Total</td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
-                      return data?.age === "Under 18";
+                    allVictims?.filter((data: any) => {
+                      return (
+                        data?.age === "Under 18" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
+                      );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
-                      return data?.age === "18-24";
+                    allVictims?.filter((data: any) => {
+                      return (
+                        data?.age === "18-24" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
+                      );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
-                      return data?.age === "25-39";
+                    allVictims?.filter((data: any) => {
+                      return (
+                        data?.age === "25-39" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
+                      );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
-                      return data?.age === "40-49";
+                    allVictims?.filter((data: any) => {
+                      return (
+                        data?.age === "40-49" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
+                      );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
-                      return data?.age === "50-59";
+                    allVictims?.filter((data: any) => {
+                      return (
+                        data?.age === "50-59" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
+                      );
                     }).length
                   }
                 </td>
                 <td>
                   {
-                    allVictims.filter((data: any) => {
-                      return data?.age === "60+";
+                    allVictims?.filter((data: any) => {
+                      return (
+                        data?.age === "60+" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
+                      );
                     }).length
                   }
                 </td>
@@ -1010,43 +1217,67 @@ async function Page() {
                 <td className="border-r border-r-black">Male</td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
-                      return data?.sex === "Male" && data?.age === "Under 18";
+                    allVictims?.filter((data: any) => {
+                      return (
+                        data?.sex === "Male" &&
+                        data?.age === "Under 18" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
+                      );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
-                      return data?.sex === "Male" && data?.age === "18-24";
+                    allVictims?.filter((data: any) => {
+                      return (
+                        data?.sex === "Male" &&
+                        data?.age === "18-24" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
+                      );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
-                      return data?.sex === "Male" && data?.age === "25-39";
+                    allVictims?.filter((data: any) => {
+                      return (
+                        data?.sex === "Male" &&
+                        data?.age === "25-39" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
+                      );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
-                      return data?.sex === "Male" && data?.age === "40-49";
+                    allVictims?.filter((data: any) => {
+                      return (
+                        data?.sex === "Male" &&
+                        data?.age === "40-49" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
+                      );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
-                      return data?.sex === "Male" && data?.age === "50-59";
+                    allVictims?.filter((data: any) => {
+                      return (
+                        data?.sex === "Male" &&
+                        data?.age === "50-59" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
+                      );
                     }).length
                   }
                 </td>
                 <td>
                   {
-                    allVictims.filter((data: any) => {
-                      return data?.sex === "Male" && data?.age === "60+";
+                    allVictims?.filter((data: any) => {
+                      return (
+                        data?.sex === "Male" &&
+                        data?.age === "60+" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
+                      );
                     }).length
                   }
                 </td>
@@ -1056,43 +1287,67 @@ async function Page() {
                 <td className="border-r border-r-black">Female</td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
-                      return data?.sex === "Female" && data?.age === "Under 18";
+                    allVictims?.filter((data: any) => {
+                      return (
+                        data?.sex === "Female" &&
+                        data?.age === "Under 18" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
+                      );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
-                      return data?.sex === "Female" && data?.age === "18-24";
+                    allVictims?.filter((data: any) => {
+                      return (
+                        data?.sex === "Female" &&
+                        data?.age === "18-24" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
+                      );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
-                      return data?.sex === "Female" && data?.age === "25-39";
+                    allVictims?.filter((data: any) => {
+                      return (
+                        data?.sex === "Female" &&
+                        data?.age === "25-39" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
+                      );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
-                      return data?.sex === "Female" && data?.age === "40-49";
+                    allVictims?.filter((data: any) => {
+                      return (
+                        data?.sex === "Female" &&
+                        data?.age === "40-49" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
+                      );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
-                      return data?.sex === "Female" && data?.age === "50-59";
+                    allVictims?.filter((data: any) => {
+                      return (
+                        data?.sex === "Female" &&
+                        data?.age === "50-59" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
+                      );
                     }).length
                   }
                 </td>
                 <td>
                   {
-                    allVictims.filter((data: any) => {
-                      return data?.sex === "Female" && data?.age === "60+";
+                    allVictims?.filter((data: any) => {
+                      return (
+                        data?.sex === "Female" &&
+                        data?.age === "60+" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
+                      );
                     }).length
                   }
                 </td>
@@ -1102,43 +1357,67 @@ async function Page() {
                 <td className="border-r border-r-black">Trans</td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
-                      return data?.sex === "Trans" && data?.age === "Under 18";
+                    allVictims?.filter((data: any) => {
+                      return (
+                        data?.sex === "Trans" &&
+                        data?.age === "Under 18" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
+                      );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
-                      return data?.sex === "Trans" && data?.age === "18-24";
+                    allVictims?.filter((data: any) => {
+                      return (
+                        data?.sex === "Trans" &&
+                        data?.age === "18-24" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
+                      );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
-                      return data?.sex === "Trans" && data?.age === "25-39";
+                    allVictims?.filter((data: any) => {
+                      return (
+                        data?.sex === "Trans" &&
+                        data?.age === "25-39" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
+                      );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
-                      return data?.sex === "Trans" && data?.age === "40-49";
+                    allVictims?.filter((data: any) => {
+                      return (
+                        data?.sex === "Trans" &&
+                        data?.age === "40-49" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
+                      );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
-                      return data?.sex === "Trans" && data?.age === "50-59";
+                    allVictims?.filter((data: any) => {
+                      return (
+                        data?.sex === "Trans" &&
+                        data?.age === "50-59" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
+                      );
                     }).length
                   }
                 </td>
                 <td>
                   {
-                    allVictims.filter((data: any) => {
-                      return data?.sex === "Trans" && data?.age === "60+";
+                    allVictims?.filter((data: any) => {
+                      return (
+                        data?.sex === "Trans" &&
+                        data?.age === "60+" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
+                      );
                     }).length
                   }
                 </td>
@@ -1148,55 +1427,66 @@ async function Page() {
                 <td className="border-r border-r-black">Not Disclosed</td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.sex === "Not disclosed" &&
-                        data?.age === "Under 18"
+                        data?.age === "Under 18" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
-                        data?.sex === "Not disclosed" && data?.age === "18-24"
+                        data?.sex === "Not disclosed" &&
+                        data?.age === "18-24" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
-                        data?.sex === "Not disclosed" && data?.age === "25-39"
+                        data?.sex === "Not disclosed" &&
+                        data?.age === "25-39" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
-                        data?.sex === "Not disclosed" && data?.age === "40-49"
+                        data?.sex === "Not disclosed" &&
+                        data?.age === "40-49" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
-                        data?.sex === "Not disclosed" && data?.age === "50-59"
+                        data?.sex === "Not disclosed" &&
+                        data?.age === "50-59" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td>
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
-                        data?.sex === "Not disclosed" && data?.age === "60+"
+                        data?.sex === "Not disclosed" &&
+                        data?.age === "60+" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
@@ -1207,43 +1497,61 @@ async function Page() {
                 <td className="border-r border-r-black">Total</td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
-                      return data?.age === "Under 18";
+                    allVictims?.filter((data: any) => {
+                      return (
+                        data?.age === "Under 18" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
+                      );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
-                      return data?.age === "18-24";
+                    allVictims?.filter((data: any) => {
+                      return (
+                        data?.age === "18-24" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
+                      );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
-                      return data?.age === "25-39";
+                    allVictims?.filter((data: any) => {
+                      return (
+                        data?.age === "25-39" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
+                      );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
-                      return data?.age === "40-49";
+                    allVictims?.filter((data: any) => {
+                      return (
+                        data?.age === "40-49" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
+                      );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
-                      return data?.age === "50-59";
+                    allVictims?.filter((data: any) => {
+                      return (
+                        data?.age === "50-59" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
+                      );
                     }).length
                   }
                 </td>
                 <td>
                   {
-                    allVictims.filter((data: any) => {
-                      return data?.age === "60+";
+                    allVictims?.filter((data: any) => {
+                      return (
+                        data?.age === "60+" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
+                      );
                     }).length
                   }
                 </td>
@@ -1282,68 +1590,77 @@ async function Page() {
                 <td className="border-r border-r-black">Male</td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
-                        data?.sex === "Male" && data?.maritalStatus === "Single"
+                        data?.sex === "Male" &&
+                        data?.maritalStatus === "Single" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.sex === "Male" &&
-                        data?.maritalStatus === "Married"
+                        data?.maritalStatus === "Married" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.sex === "Male" &&
-                        data?.maritalStatus === "Defacto Union"
+                        data?.maritalStatus === "Defacto Union" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.sex === "Male" &&
-                        data?.maritalStatus === "Widowed"
+                        data?.maritalStatus === "Widowed" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.sex === "Male" &&
-                        data?.maritalStatus === "Divorced"
+                        data?.maritalStatus === "Divorced" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.sex === "Male" &&
-                        data?.maritalStatus === "Separated"
+                        data?.maritalStatus === "Separated" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td>
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
-                        data?.sex === "Male" && data?.maritalStatus === "Others"
+                        data?.sex === "Male" &&
+                        data?.maritalStatus === "Others" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
@@ -1354,70 +1671,77 @@ async function Page() {
                 <td className="border-r border-r-black">Female</td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.sex === "Female" &&
-                        data?.maritalStatus === "Single"
+                        data?.maritalStatus === "Single" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.sex === "Female" &&
-                        data?.maritalStatus === "Married"
+                        data?.maritalStatus === "Married" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.sex === "Female" &&
-                        data?.maritalStatus === "Defacto Union"
+                        data?.maritalStatus === "Defacto Union" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.sex === "Female" &&
-                        data?.maritalStatus === "Widowed"
+                        data?.maritalStatus === "Widowed" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.sex === "Female" &&
-                        data?.maritalStatus === "Divorced"
+                        data?.maritalStatus === "Divorced" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.sex === "Female" &&
-                        data?.maritalStatus === "Separated"
+                        data?.maritalStatus === "Separated" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td>
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.sex === "Female" &&
-                        data?.maritalStatus === "Others"
+                        data?.maritalStatus === "Others" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
@@ -1428,70 +1752,77 @@ async function Page() {
                 <td className="border-r border-r-black">Trans</td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.sex === "Trans" &&
-                        data?.maritalStatus === "Single"
+                        data?.maritalStatus === "Single" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.sex === "Trans" &&
-                        data?.maritalStatus === "Married"
+                        data?.maritalStatus === "Married" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.sex === "Trans" &&
-                        data?.maritalStatus === "Defacto Union"
+                        data?.maritalStatus === "Defacto Union" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.sex === "Trans" &&
-                        data?.maritalStatus === "Widowed"
+                        data?.maritalStatus === "Widowed" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.sex === "Trans" &&
-                        data?.maritalStatus === "Divorced"
+                        data?.maritalStatus === "Divorced" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.sex === "Trans" &&
-                        data?.maritalStatus === "Separated"
+                        data?.maritalStatus === "Separated" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td>
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.sex === "Trans" &&
-                        data?.maritalStatus === "Others"
+                        data?.maritalStatus === "Others" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
@@ -1502,70 +1833,77 @@ async function Page() {
                 <td className="border-r border-r-black">Not disclosed</td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.sex === "Not disclosed" &&
-                        data?.maritalStatus === "Single"
+                        data?.maritalStatus === "Single" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.sex === "Not disclosed" &&
-                        data?.maritalStatus === "Married"
+                        data?.maritalStatus === "Married" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.sex === "Not disclosed" &&
-                        data?.maritalStatus === "Defacto Union"
+                        data?.maritalStatus === "Defacto Union" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.sex === "Not disclosed" &&
-                        data?.maritalStatus === "Widowed"
+                        data?.maritalStatus === "Widowed" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.sex === "Not disclosed" &&
-                        data?.maritalStatus === "Divorced"
+                        data?.maritalStatus === "Divorced" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.sex === "Not disclosed" &&
-                        data?.maritalStatus === "Separated"
+                        data?.maritalStatus === "Separated" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td>
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.sex === "Not disclosed" &&
-                        data?.maritalStatus === "Others"
+                        data?.maritalStatus === "Others" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
@@ -1576,50 +1914,71 @@ async function Page() {
                 <td className="border-r border-r-black">Total</td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
-                      return data?.maritalStatus === "Single";
+                    allVictims?.filter((data: any) => {
+                      return (
+                        data?.maritalStatus === "Single" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
+                      );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
-                      return data?.maritalStatus === "Married";
+                    allVictims?.filter((data: any) => {
+                      return (
+                        data?.maritalStatus === "Married" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
+                      );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
-                      return data?.maritalStatus === "Defacto Union";
+                    allVictims?.filter((data: any) => {
+                      return (
+                        data?.maritalStatus === "Defacto Union" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
+                      );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
-                      return data?.maritalStatus === "Widowed";
+                    allVictims?.filter((data: any) => {
+                      return (
+                        data?.maritalStatus === "Widowed" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
+                      );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
-                      return data?.maritalStatus === "Divorced";
+                    allVictims?.filter((data: any) => {
+                      return (
+                        data?.maritalStatus === "Divorced" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
+                      );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
-                      return data?.maritalStatus === "Separated";
+                    allVictims?.filter((data: any) => {
+                      return (
+                        data?.maritalStatus === "Separated" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
+                      );
                     }).length
                   }
                 </td>
                 <td>
                   {
-                    allVictims.filter((data: any) => {
-                      return data?.maritalStatus === "Others";
+                    allVictims?.filter((data: any) => {
+                      return (
+                        data?.maritalStatus === "Others" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
+                      );
                     }).length
                   }
                 </td>
@@ -1655,33 +2014,36 @@ async function Page() {
                 <td className="border-r border-r-black">Urban</td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Urban" &&
                         data?.disabled === "Yes" &&
-                        data?.sex === "Male"
+                        data?.sex === "Male" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Urban" &&
                         data?.disabled === "Yes" &&
-                        data?.sex === "Female"
+                        data?.sex === "Female" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Urban" &&
                         data?.disabled === "Yes" &&
-                        data?.sex === "Trans"
+                        data?.sex === "Trans" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
@@ -1689,11 +2051,12 @@ async function Page() {
 
                 <td>
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Urban" &&
                         data?.disabled === "Yes" &&
-                        data?.sex === "Not disclosed"
+                        data?.sex === "Not disclosed" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
@@ -1703,33 +2066,36 @@ async function Page() {
                 <td className="border-r border-r-black">Rural</td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Rural" &&
                         data?.disabled === "Yes" &&
-                        data?.sex === "Male"
+                        data?.sex === "Male" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Rural" &&
                         data?.disabled === "Yes" &&
-                        data?.sex === "Female"
+                        data?.sex === "Female" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Rural" &&
                         data?.disabled === "Yes" &&
-                        data?.sex === "Trans"
+                        data?.sex === "Trans" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
@@ -1737,11 +2103,12 @@ async function Page() {
 
                 <td>
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Rural" &&
                         data?.disabled === "Yes" &&
-                        data?.sex === "Not disclosed"
+                        data?.sex === "Not disclosed" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
@@ -1751,32 +2118,45 @@ async function Page() {
                 <td className="border-r border-r-black">Total</td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
-                      return data?.disabled === "Yes" && data?.sex === "Male";
+                    allVictims?.filter((data: any) => {
+                      return (
+                        data?.disabled === "Yes" &&
+                        data?.sex === "Male" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
+                      );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
-                      return data?.disabled === "Yes" && data?.sex === "Female";
+                    allVictims?.filter((data: any) => {
+                      return (
+                        data?.disabled === "Yes" &&
+                        data?.sex === "Female" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
+                      );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
-                      return data?.disabled === "Yes" && data?.sex === "Trans";
+                    allVictims?.filter((data: any) => {
+                      return (
+                        data?.disabled === "Yes" &&
+                        data?.sex === "Trans" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
+                      );
                     }).length
                   }
                 </td>
 
                 <td>
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.disabled === "Yes" &&
-                        data?.sex === "Not disclosed"
+                        data?.sex === "Not disclosed" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
@@ -1811,10 +2191,11 @@ async function Page() {
                 <td className="border-r border-r-black">Urban</td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Urban" &&
-                        data?.newClient === "Repeat"
+                        data?.newClient === "Repeat" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
@@ -1822,10 +2203,11 @@ async function Page() {
 
                 <td>
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Urban" &&
-                        data?.newClient === "New"
+                        data?.newClient === "New" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
@@ -1836,20 +2218,22 @@ async function Page() {
 
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Rural" &&
-                        data?.newClient === "Repeat"
+                        data?.newClient === "Repeat" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td>
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Rural" &&
-                        data?.newClient === "New"
+                        data?.newClient === "New" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
@@ -1860,15 +2244,21 @@ async function Page() {
 
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
-                      return data?.newClient === "Repeat";
+                    allVictims?.filter((data: any) => {
+                      return (
+                        data?.newClient === "Repeat" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
+                      );
                     }).length
                   }
                 </td>
                 <td>
                   {
-                    allVictims.filter((data: any) => {
-                      return data?.newClient === "New";
+                    allVictims?.filter((data: any) => {
+                      return (
+                        data?.newClient === "New" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
+                      );
                     }).length
                   }
                 </td>
@@ -1905,40 +2295,44 @@ async function Page() {
                 <td className="border-r border-r-black">Urban</td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Urban" &&
-                        data?.incidentTime === "Morning"
+                        data?.incidentTime === "Morning" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Urban" &&
-                        data?.incidentTime === "Afternoon"
+                        data?.incidentTime === "Afternoon" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Urban" &&
-                        data?.incidentTime === "Evening/Night"
+                        data?.incidentTime === "Evening/Night" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Urban" &&
-                        data?.incidentTime === "Not Stated"
+                        data?.incidentTime === "Not Stated" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
@@ -1946,10 +2340,11 @@ async function Page() {
 
                 <td>
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Urban" &&
-                        data?.incidentTime === "Not Applicable"
+                        data?.incidentTime === "Not Applicable" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
@@ -1960,40 +2355,44 @@ async function Page() {
                 <td className="border-r border-r-black">Rural</td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Rural" &&
-                        data?.incidentTime === "Morning"
+                        data?.incidentTime === "Morning" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Rural" &&
-                        data?.incidentTime === "Afternoon"
+                        data?.incidentTime === "Afternoon" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Rural" &&
-                        data?.incidentTime === "Evening/Night"
+                        data?.incidentTime === "Evening/Night" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Rural" &&
-                        data?.incidentTime === "Not Stated"
+                        data?.incidentTime === "Not Stated" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
@@ -2001,10 +2400,11 @@ async function Page() {
 
                 <td>
                   {
-                    allVictims.filter((data: any) => {
+                    allVictims?.filter((data: any) => {
                       return (
                         data?.case?.region === "Rural" &&
-                        data?.incidentTime === "Not Applicable"
+                        data?.incidentTime === "Not Applicable" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
@@ -2015,37 +2415,52 @@ async function Page() {
                 <td className="border-r border-r-black">Total</td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
-                      return data?.incidentTime === "Morning";
+                    allVictims?.filter((data: any) => {
+                      return (
+                        data?.incidentTime === "Morning" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
+                      );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
-                      return data?.incidentTime === "Afternoon";
+                    allVictims?.filter((data: any) => {
+                      return (
+                        data?.incidentTime === "Afternoon" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
+                      );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
-                      return data?.incidentTime === "Evening/Night";
+                    allVictims?.filter((data: any) => {
+                      return (
+                        data?.incidentTime === "Evening/Night" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
+                      );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allVictims.filter((data: any) => {
-                      return data?.incidentTime === "Not Stated";
+                    allVictims?.filter((data: any) => {
+                      return (
+                        data?.incidentTime === "Not Stated" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
+                      );
                     }).length
                   }
                 </td>
 
                 <td>
                   {
-                    allVictims.filter((data: any) => {
-                      return data?.incidentTime === "Not Applicable";
+                    allVictims?.filter((data: any) => {
+                      return (
+                        data?.incidentTime === "Not Applicable" &&
+                        data?.case?.registrationDate.slice(0, -6) === search
+                      );
                     }).length
                   }
                 </td>
@@ -2081,26 +2496,33 @@ async function Page() {
                 <td className="border-r border-r-black">0-3 days</td>
                 <td className="border-r border-r-black">
                   {
-                    allCases.filter((data: any) => {
+                    allCases?.filter((data: any) => {
                       return (
-                        data?.region === "Urban" && data?.tbid === "0 - 3 days"
+                        data?.region === "Urban" &&
+                        data?.tbid === "0 - 3 days" &&
+                        data?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allCases.filter((data: any) => {
+                    allCases?.filter((data: any) => {
                       return (
-                        data?.region === "Rural" && data?.tbid === "0 - 3 days"
+                        data?.region === "Rural" &&
+                        data?.tbid === "0 - 3 days" &&
+                        data?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td>
                   {
-                    allCases.filter((data: any) => {
-                      return data?.tbid === "0 - 3 days";
+                    allCases?.filter((data: any) => {
+                      return (
+                        data?.tbid === "0 - 3 days" &&
+                        data?.registrationDate.slice(0, -6) === search
+                      );
                     }).length
                   }
                 </td>
@@ -2111,26 +2533,33 @@ async function Page() {
                 <td className="border-r border-r-black">4-5 days</td>
                 <td className="border-r border-r-black">
                   {
-                    allCases.filter((data: any) => {
+                    allCases?.filter((data: any) => {
                       return (
-                        data?.region === "Urban" && data?.tbid === "4 - 5 days"
+                        data?.region === "Urban" &&
+                        data?.tbid === "4 - 5 days" &&
+                        data?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allCases.filter((data: any) => {
+                    allCases?.filter((data: any) => {
                       return (
-                        data?.region === "Rural" && data?.tbid === "4 - 5 days"
+                        data?.region === "Rural" &&
+                        data?.tbid === "4 - 5 days" &&
+                        data?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td>
                   {
-                    allCases.filter((data: any) => {
-                      return data?.tbid === "4 - 5 days";
+                    allCases?.filter((data: any) => {
+                      return (
+                        data?.tbid === "4 - 5 days" &&
+                        data?.registrationDate.slice(0, -6) === search
+                      );
                     }).length
                   }
                 </td>
@@ -2141,26 +2570,33 @@ async function Page() {
                 <td className="border-r border-r-black">6-14 days</td>
                 <td className="border-r border-r-black">
                   {
-                    allCases.filter((data: any) => {
+                    allCases?.filter((data: any) => {
                       return (
-                        data?.region === "Urban" && data?.tbid === "6 - 14 days"
+                        data?.region === "Urban" &&
+                        data?.tbid === "6 - 14 days" &&
+                        data?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allCases.filter((data: any) => {
+                    allCases?.filter((data: any) => {
                       return (
-                        data?.region === "Rural" && data?.tbid === "6 - 14 days"
+                        data?.region === "Rural" &&
+                        data?.tbid === "6 - 14 days" &&
+                        data?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td>
                   {
-                    allCases.filter((data: any) => {
-                      return data?.tbid === "6 - 14 days";
+                    allCases?.filter((data: any) => {
+                      return (
+                        data?.tbid === "6 - 14 days" &&
+                        data?.registrationDate.slice(0, -6) === search
+                      );
                     }).length
                   }
                 </td>
@@ -2171,28 +2607,33 @@ async function Page() {
                 <td className="border-r border-r-black">2 weeks - 1 month</td>
                 <td className="border-r border-r-black">
                   {
-                    allCases.filter((data: any) => {
+                    allCases?.filter((data: any) => {
                       return (
                         data?.region === "Urban" &&
-                        data?.tbid === "2 weeks - 1 month"
+                        data?.tbid === "2 weeks - 1 month" &&
+                        data?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allCases.filter((data: any) => {
+                    allCases?.filter((data: any) => {
                       return (
                         data?.region === "Rural" &&
-                        data?.tbid === "2 weeks - 1 month"
+                        data?.tbid === "2 weeks - 1 month" &&
+                        data?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td>
                   {
-                    allCases.filter((data: any) => {
-                      return data?.tbid === "2 weeks - 1 month";
+                    allCases?.filter((data: any) => {
+                      return (
+                        data?.tbid === "2 weeks - 1 month" &&
+                        data?.registrationDate.slice(0, -6) === search
+                      );
                     }).length
                   }
                 </td>
@@ -2203,28 +2644,33 @@ async function Page() {
                 <td className="border-r border-r-black">more than 1 month</td>
                 <td className="border-r border-r-black">
                   {
-                    allCases.filter((data: any) => {
+                    allCases?.filter((data: any) => {
                       return (
                         data?.region === "Urban" &&
-                        data?.tbid === "more than a month"
+                        data?.tbid === "more than a month" &&
+                        data?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allCases.filter((data: any) => {
+                    allCases?.filter((data: any) => {
                       return (
                         data?.region === "Rural" &&
-                        data?.tbid === "more than a month"
+                        data?.tbid === "more than a month" &&
+                        data?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td>
                   {
-                    allCases.filter((data: any) => {
-                      return data?.tbid === "more than a month";
+                    allCases?.filter((data: any) => {
+                      return (
+                        data?.tbid === "more than a month" &&
+                        data?.registrationDate.slice(0, -6) === search
+                      );
                     }).length
                   }
                 </td>
@@ -2235,28 +2681,33 @@ async function Page() {
                 <td className="border-r border-r-black">Not Specified</td>
                 <td className="border-r border-r-black">
                   {
-                    allCases.filter((data: any) => {
+                    allCases?.filter((data: any) => {
                       return (
                         data?.region === "Urban" &&
-                        data?.tbid === "Not Specified"
+                        data?.tbid === "Not Specified" &&
+                        data?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td className="border-r border-r-black">
                   {
-                    allCases.filter((data: any) => {
+                    allCases?.filter((data: any) => {
                       return (
                         data?.region === "Rural" &&
-                        data?.tbid === "Not Specified"
+                        data?.tbid === "Not Specified" &&
+                        data?.registrationDate.slice(0, -6) === search
                       );
                     }).length
                   }
                 </td>
                 <td>
                   {
-                    allCases.filter((data: any) => {
-                      return data?.tbid === "Not Specified";
+                    allCases?.filter((data: any) => {
+                      return (
+                        data?.tbid === "Not Specified" &&
+                        data?.registrationDate.slice(0, -6) === search
+                      );
                     }).length
                   }
                 </td>

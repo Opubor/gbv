@@ -59,3 +59,17 @@ export async function POST(req: NextRequest, res: NextResponse) {
     return new Response(JSON.stringify(error), { status: 404 });
   }
 }
+
+export async function GET(req: NextRequest, res: NextResponse) {
+  const allVictimDetails = await prisma.victim.findMany({
+    include: {
+      case: true,
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+  return new Response(JSON.stringify(allVictimDetails), {
+    status: 200,
+  });
+}

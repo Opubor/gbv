@@ -1,4 +1,8 @@
+"use client";
+import { searchSchema } from "@/schema/search";
+import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React from "react";
 import { IoMdPerson } from "react-icons/io";
 import {
@@ -17,7 +21,6 @@ function Page() {
       </div>
 
       {/* Different types of reports */}
-
       <div className="grid grid-cols-3 gap-2">
         {/* ========Survivor======= */}
         <div className="bg-white shadow-lg shadow-gray-200 rounded-lg p-4">

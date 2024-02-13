@@ -5,6 +5,7 @@ import {
   victimDetailsSchema,
 } from "@/schema/victimDetails";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
@@ -17,6 +18,7 @@ type Props = {
 
 function EditForm({ serviceProvider, agencies }: Props) {
   const router = useRouter();
+  const { data: session } = useSession();
 
   const {
     register,
@@ -44,6 +46,7 @@ function EditForm({ serviceProvider, agencies }: Props) {
           serviceProviderId: data?.serviceProviderId,
           serviceProviderReferralId: data?.serviceProviderReferralId,
           tbid: data?.tbid,
+          userId: data?.userId,
         }),
       });
       setLoading(false);
@@ -247,7 +250,10 @@ function EditForm({ serviceProvider, agencies }: Props) {
       </div>
 
       <div className="mt-4 flex justify-center items-center">
-        <button className="bg-themeColor hover:bg-darkTheme hover:font-bold px-12 py-2 text-white text-sm rounded-md flex justify-center items-center gap-2">
+        <button
+          onClick={() => setValue("userId", session?.user?.id)}
+          className="bg-themeColor hover:bg-darkTheme hover:font-bold px-12 py-2 text-white text-sm rounded-md flex justify-center items-center gap-2"
+        >
           {loading ? "Loading..." : "Edit"}
         </button>
       </div>

@@ -19,10 +19,12 @@ import {
 import { usePathname } from "next/navigation";
 import { BiLogOut } from "react-icons/bi";
 import { FaBarsStaggered } from "react-icons/fa6";
-import { FaBook, FaGifts, FaHandHoldingHeart } from "react-icons/fa";
+import { FaBook, FaGifts, FaHandHoldingHeart, FaHistory } from "react-icons/fa";
 import { CiShoppingTag } from "react-icons/ci";
 import { TbReport, TbUsersGroup } from "react-icons/tb";
 import { signIn, signOut, useSession } from "next-auth/react";
+import { RiHistoryLine } from "react-icons/ri";
+import { SlBookOpen } from "react-icons/sl";
 
 function Sidebar() {
   const path = usePathname();
@@ -34,7 +36,7 @@ function Sidebar() {
     {
       name: "Cases",
       path: "/admin/cases",
-      icon: FaBook,
+      icon: SlBookOpen,
     },
     {
       name: "Reports",
@@ -55,6 +57,11 @@ function Sidebar() {
       name: "Get Help Requests",
       path: "/admin/get-help",
       icon: IoGitPullRequestOutline,
+    },
+    {
+      name: "Activity Log",
+      path: "/admin/activity-log",
+      icon: RiHistoryLine,
     },
     {
       name: "Settings",

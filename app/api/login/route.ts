@@ -2,6 +2,8 @@ import prisma from "@/lib/prisma-client";
 import { loginUserSchema, TLoginUserSchema } from "@/schema/user";
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcrypt";
+import { getServerSession } from "next-auth";
+import { options } from "../auth/[...nextauth]/option";
 
 export async function POST(req: NextRequest, res: NextResponse) {
   const body: TLoginUserSchema = await req.json();
@@ -26,6 +28,13 @@ export async function POST(req: NextRequest, res: NextResponse) {
       user?.password
     );
     if (isMatch) {
+      const activityLog = await prisma.activityLog.create({
+        data: {
+          userId: user?.id as string,
+          activityHeader: "Log In",
+          activityName: `Login successful - ${user?.firstName} ${user?.lastName}`,
+        },
+      });
       return new Response(JSON.stringify(user), {
         status: 200,
       });

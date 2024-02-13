@@ -9,6 +9,7 @@ export const caseSchema = z.object({
   serviceProviderId: z.string().min(1),
   serviceProviderReferralId: z.string().nullable().optional(),
   tbid: z.string().nullable().optional(),
+  userId: z.string().min(1),
 });
 
 export type TCaseSchema = z.infer<typeof caseSchema>;

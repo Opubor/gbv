@@ -2,6 +2,8 @@ import prisma from "@/lib/prisma-client";
 import { TUpdatePasswordSchema, updatePasswordSchema } from "@/schema/user";
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcrypt";
+import { getServerSession } from "next-auth";
+import { options } from "@/app/api/auth/[...nextauth]/option";
 
 export async function PUT(
   req: NextRequest,
@@ -39,6 +41,15 @@ export async function PUT(
       const updateUser = await prisma.user.update({
         where: { id: params.id.toString() },
         data: { password: hashedPassword },
+      });
+
+      const session = await getServerSession(options);
+      const activityLog = await prisma.activityLog.create({
+        data: {
+          userId: session?.user?.id as string,
+          activityHeader: "Password Update",
+          activityName: `Updated Password - ${user?.firstName} ${user?.lastName}`,
+        },
       });
       return new Response(JSON.stringify("Updated successfully"), {
         status: 200,

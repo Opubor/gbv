@@ -3,7 +3,9 @@ import {
   TEditGbvInformationSchema,
   editGbvInformationSchema,
 } from "@/schema/gbvInformation";
+import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
+import { options } from "../../auth/[...nextauth]/option";
 
 export async function PUT(
   req: NextRequest,
@@ -56,6 +58,20 @@ export async function PUT(
         rsSecurityProtection: result?.data?.rsSecurityProtection,
         rsShelter: result?.data?.rsShelter,
         rsVocTraining: result?.data?.rsVocTraining,
+      },
+    });
+
+    let gbv = await prisma.gbvInformation.findFirst({
+      where: { id: gbvInformation?.id },
+      include: { case: true },
+    });
+
+    const session = await getServerSession(options);
+    const activityLog = await prisma.activityLog.create({
+      data: {
+        userId: session?.user?.id as string,
+        activityHeader: "Updated GBV Information",
+        activityName: `Updated GBV information for Case - ${gbv?.case?.caseId}`,
       },
     });
 

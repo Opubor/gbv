@@ -4,6 +4,8 @@ import {
   perpetratorDetailsSchema,
   TPerpetratorDetailsSchema,
 } from "@/schema/perpetratorDetails";
+import { getServerSession } from "next-auth";
+import { options } from "../auth/[...nextauth]/option";
 
 export async function POST(req: NextRequest, res: NextResponse) {
   const body: TPerpetratorDetailsSchema = await req.json();
@@ -37,6 +39,22 @@ export async function POST(req: NextRequest, res: NextResponse) {
         secondVillage: result?.data?.secondVillage,
         sex: result?.data?.sex,
         typeOfDisability: result?.data?.typeOfDisability,
+        fullName: result?.data?.fullName,
+        aka: result?.data?.aka,
+      },
+    });
+
+    let pd = await prisma.perpetrator.findFirst({
+      where: { id: perpetratorDetails?.id },
+      include: { case: true },
+    });
+
+    const session = await getServerSession(options);
+    const activityLog = await prisma.activityLog.create({
+      data: {
+        userId: session?.user?.id as string,
+        activityHeader: "Added Perpetrator details",
+        activityName: `Added perpetrator details for Case - ${pd?.case?.caseId}`,
       },
     });
 

@@ -1,6 +1,8 @@
 import prisma from "@/lib/prisma-client";
 import { TAgencySchema, agencySchema } from "@/schema/agency";
+import { getServerSession } from "next-auth";
 import { NextRequest } from "next/server";
+import { options } from "../../auth/[...nextauth]/option";
 
 export async function PUT(
   req: NextRequest,
@@ -22,6 +24,15 @@ export async function PUT(
       where: { id: params.id.toString() },
       data: result.data,
     });
+
+    const session = await getServerSession(options);
+    const activityLog = await prisma.activityLog.create({
+      data: {
+        userId: session?.user?.id as string,
+        activityHeader: "Updated Service Provider",
+        activityName: `Updated Service Provider - ${user?.name}`,
+      },
+    });
     return new Response(JSON.stringify("Updated successfully"), {
       status: 200,
     });
@@ -35,8 +46,17 @@ export async function DELETE(
   { params }: { params: { id: number } }
 ): Promise<any> {
   try {
-    await prisma.agency.delete({
+    const agency = await prisma.agency.delete({
       where: { id: params.id.toString() },
+    });
+
+    const session = await getServerSession(options);
+    const activityLog = await prisma.activityLog.create({
+      data: {
+        userId: session?.user?.id as string,
+        activityHeader: "Updated Service Provider",
+        activityName: `Updated Service Provider - ${agency?.name}`,
+      },
     });
     return new Response(JSON.stringify("Deleted Successfully"), {
       status: 200,

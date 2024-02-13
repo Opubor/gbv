@@ -11,19 +11,20 @@ datasource db {
 }
 
 model User {
-  id                       String   @id @default(uuid())
+  id                       String        @id @default(uuid())
   firstName                String
   lastName                 String
-  email                    String   @unique
+  email                    String        @unique
   role                     String
   password                 String
   gender                   String?
   phoneNumber              String?
   branch                   String
-  userBranch               Agency?  @relation(fields: [branch], references: [id], onDelete: Cascade)
-  resetPasswordToken       String?  @unique
+  userBranch               Agency?       @relation(fields: [branch], references: [id], onDelete: Cascade)
+  resetPasswordToken       String?       @unique
   resetPasswordTokenExpiry String?
-  createdAt                DateTime @default(now())
+  createdAt                DateTime      @default(now())
+  ActivityLog              ActivityLog[]
 }
 
 model Agency {
@@ -87,6 +88,17 @@ model Victim {
   perpetratorSex                  String
   perpetratorSurvivorRelationship String
   immediateProtection             String
+  firstName                       String   @default("---")
+  lastName                        String   @default("---")
+  attendingSchool                 String   @default("---")
+  nameOfSchool                    String?  @default("---")
+  gradeInSchool                   String?  @default("---")
+  typeOfCase                      String?  @default("---")
+  homeVisitDates                  String?  @default("---")
+  nameOfFather                    String?  @default("---")
+  nameOfMother                    String?  @default("---")
+  statusCase                      String   @default("---")
+  contactNumber                   String   @default("---")
   createdAt                       DateTime @default(now())
 
   @@index([caseId])
@@ -110,6 +122,8 @@ model Perpetrator {
   disabled               String
   typeOfDisability       String?
   protectionOrder        String
+  fullName               String   @default("---")
+  aka                    String?  @default("---")
   createdAt              DateTime @default(now())
 
   @@index([caseId])
@@ -174,4 +188,13 @@ model GetHelp {
   contacted         String?
   date              String?
   createdAt         DateTime @default(now())
+}
+
+model ActivityLog {
+  id             String   @id @default(uuid())
+  userId         String
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  activityHeader String
+  activityName   String
+  createdAt      DateTime @default(now())
 }

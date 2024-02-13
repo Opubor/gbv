@@ -3,6 +3,8 @@ import { registerUserSchema, TRegisterUserSchema } from "@/schema/user";
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcrypt";
 import { agencySchema, TAgencySchema } from "@/schema/agency";
+import { getServerSession } from "next-auth";
+import { options } from "../auth/[...nextauth]/option";
 
 export async function POST(req: NextRequest, res: NextResponse) {
   const body: TAgencySchema = await req.json();
@@ -28,6 +30,15 @@ export async function POST(req: NextRequest, res: NextResponse) {
         city: result?.data?.city,
         about: result?.data?.about,
         founded: result?.data?.founded,
+      },
+    });
+
+    const session = await getServerSession(options);
+    const activityLog = await prisma.activityLog.create({
+      data: {
+        userId: session?.user?.id as string,
+        activityHeader: "New Service Provider Added",
+        activityName: `Added a new Service Provider - ${agency?.name}`,
       },
     });
 

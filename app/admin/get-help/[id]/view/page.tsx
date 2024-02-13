@@ -11,7 +11,7 @@ async function Page({ params }: PageProps) {
   const helpRequest = await getHelpRequest(params?.id as string);
   return (
     <div className="bg-white rounded-lg p-4 w-full">
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         {/* ==Get Help Request=== */}
         <div className="col-span-1 border-4 border-double border-purple-500 rounded-md flex flex-col justify-center items-center">
           <RiContactsLine className="text-7xl text-themeColor" />

@@ -8,6 +8,8 @@ import {
   TGbvInformationSchema,
   gbvInformationSchema,
 } from "@/schema/gbvInformation";
+import { getServerSession } from "next-auth";
+import { options } from "../auth/[...nextauth]/option";
 
 export async function POST(req: NextRequest, res: NextResponse) {
   const body: TGbvInformationSchema = await req.json();
@@ -59,6 +61,21 @@ export async function POST(req: NextRequest, res: NextResponse) {
         rsVocTraining: result?.data?.rsVocTraining,
       },
     });
+
+    let gbv = await prisma.gbvInformation.findFirst({
+      where: { id: gbvInformation?.id },
+      include: { case: true },
+    });
+
+    const session = await getServerSession(options);
+    const activityLog = await prisma.activityLog.create({
+      data: {
+        userId: session?.user?.id as string,
+        activityHeader: "Added GBV Information",
+        activityName: `Added GBV information for Case - ${gbv?.case?.caseId}`,
+      },
+    });
+
     if (gbvInformation) {
       return new Response(JSON.stringify("Registration Successful"), {
         status: 200,

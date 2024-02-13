@@ -4,7 +4,9 @@ import {
   TEditVictimDetailsSchema,
   editVictimDetailsSchema,
 } from "@/schema/victimDetails";
+import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
+import { options } from "../../auth/[...nextauth]/option";
 
 export async function PUT(
   req: NextRequest,
@@ -25,7 +27,7 @@ export async function PUT(
   }
 
   try {
-    const serviceProviders = await prisma.case.update({
+    const editCase = await prisma.case.update({
       where: { id: params?.id },
       data: {
         registeredBy: result?.data?.registeredBy,
@@ -42,7 +44,16 @@ export async function PUT(
       },
     });
 
-    if (serviceProviders) {
+    const session = await getServerSession(options);
+
+    const activityLog = await prisma.activityLog.create({
+      data: {
+        userId: session?.user?.id as string,
+        activityHeader: "Update Case",
+        activityName: `Updated case details - ${editCase?.caseId}`,
+      },
+    });
+    if (editCase) {
       return new Response(JSON.stringify("Updated Successful"), {
         status: 200,
       });
@@ -63,6 +74,15 @@ export async function DELETE(
   try {
     let deleteCase = await prisma.case.delete({
       where: { id: params?.id },
+    });
+
+    const session = await getServerSession(options);
+    const activityLog = await prisma.activityLog.create({
+      data: {
+        userId: session?.user?.id as string,
+        activityHeader: "Delete case",
+        activityName: `Deleted a case - ${deleteCase?.caseId}`,
+      },
     });
 
     if (deleteCase) {

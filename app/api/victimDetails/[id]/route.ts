@@ -3,7 +3,9 @@ import {
   TEditVictimDetailsSchema,
   editVictimDetailsSchema,
 } from "@/schema/victimDetails";
+import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
+import { options } from "../../auth/[...nextauth]/option";
 
 export async function PUT(
   req: NextRequest,
@@ -47,6 +49,31 @@ export async function PUT(
         sex: result?.data?.sex,
         typeOfDisability: result?.data?.typeOfDisability,
         violenceType: result?.data?.violenceType,
+        firstName: result?.data?.firstName,
+        lastName: result?.data?.lastName,
+        attendingSchool: result?.data?.attendingSchool,
+        nameOfSchool: result?.data?.nameOfSchool,
+        gradeInSchool: result?.data?.gradeInSchool,
+        typeOfCase: result?.data?.typeOfCase,
+        homeVisitDates: result?.data?.homeVisitDates,
+        nameOfFather: result?.data?.nameOfFather,
+        nameOfMother: result?.data?.nameOfMother,
+        statusCase: result?.data?.statusCase,
+        contactNumber: result?.data?.contactNumber,
+      },
+    });
+
+    let vd = await prisma.victim.findFirst({
+      where: { id: victimDetails?.id },
+      include: { case: true },
+    });
+
+    const session = await getServerSession(options);
+    const activityLog = await prisma.activityLog.create({
+      data: {
+        userId: session?.user?.id as string,
+        activityHeader: "Updated Victim details",
+        activityName: `Updated victim details for Case - ${vd?.case?.caseId}`,
       },
     });
 

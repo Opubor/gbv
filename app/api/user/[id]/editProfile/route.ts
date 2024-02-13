@@ -1,5 +1,7 @@
+import { options } from "@/app/api/auth/[...nextauth]/option";
 import prisma from "@/lib/prisma-client";
 import { TEditProfileSchema, editProfileSchema } from "@/schema/user";
+import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function PUT(
@@ -23,6 +25,15 @@ export async function PUT(
     const user = await prisma.user.update({
       where: { id: params.id.toString() },
       data: result.data,
+    });
+
+    const session = await getServerSession(options);
+    const activityLog = await prisma.activityLog.create({
+      data: {
+        userId: session?.user?.id as string,
+        activityHeader: "Edited Profile",
+        activityName: `Edited profile - ${user?.firstName} ${user?.lastName}`,
+      },
     });
     return new Response(JSON.stringify("Updated successfully"), {
       status: 200,

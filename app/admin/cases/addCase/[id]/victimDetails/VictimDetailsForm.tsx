@@ -52,6 +52,17 @@ function VictimDetailsForm({ id }: PageProps) {
           perpetratorSurvivorRelationship:
             data?.perpetratorSurvivorRelationship,
           immediateProtection: data?.immediateProtection,
+          firstName: data?.firstName,
+          lastName: data?.lastName,
+          attendingSchool: data?.attendingSchool,
+          nameOfSchool: data?.nameOfSchool,
+          gradeInSchool: data?.gradeInSchool,
+          typeOfCase: data?.typeOfCase,
+          homeVisitDates: data?.homeVisitDates,
+          nameOfFather: data?.nameOfFather,
+          nameOfMother: data?.nameOfMother,
+          statusCase: data?.statusCase,
+          contactNumber: data?.contactNumber,
         }),
       });
       setLoading(false);
@@ -76,7 +87,31 @@ function VictimDetailsForm({ id }: PageProps) {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      {/* New Client/ Residential Village */}
+      {/* First Name/ Last Name */}
+      <div className="flex justify-between items-center gap-4">
+        <div className="flex flex-col mt-2 w-full">
+          <label className="text-xs font-semibold">First Name</label>
+          <input
+            {...register("firstName", { required: true })}
+            className="border border-themeColor px-2 py-1 rounded-md"
+          />
+          {errors.firstName && (
+            <p className="text-red-500 text-xs">Required***</p>
+          )}
+        </div>
+        <div className="flex flex-col mt-2 w-full">
+          <label className="text-xs font-semibold">Last Name</label>
+          <input
+            {...register("lastName", { required: true })}
+            className="border border-themeColor px-2 py-1 rounded-md"
+          />
+          {errors.lastName && (
+            <p className="text-red-500 text-xs">Required***.</p>
+          )}
+        </div>
+      </div>
+
+      {/* New Client/ Status of Case */}
       <div className="flex justify-between items-center gap-4">
         <div className="flex flex-col mt-2 w-full">
           <label className="text-xs font-semibold">New Client?</label>
@@ -93,6 +128,24 @@ function VictimDetailsForm({ id }: PageProps) {
           )}
         </div>
         <div className="flex flex-col mt-2 w-full">
+          <label className="text-xs font-semibold">Status of Case</label>
+          <select
+            {...register("statusCase", { required: true })}
+            className="border border-themeColor px-2 py-1 rounded-md"
+          >
+            <option value={""}>Select an Option</option>
+            <option value={"Active"}>Active</option>
+            <option value={"Closed"}>Closed</option>
+          </select>
+          {errors.statusCase && (
+            <p className="text-red-500 text-xs">Please select an option.</p>
+          )}
+        </div>
+      </div>
+
+      {/* Residential Village/Second Village */}
+      <div className="flex justify-between items-center gap-4">
+        <div className="flex flex-col mt-2 w-full">
           <label className="text-xs font-semibold">Residential Village</label>
           <input
             {...register("residentialVillage", { required: true })}
@@ -102,10 +155,6 @@ function VictimDetailsForm({ id }: PageProps) {
             <p className="text-red-500 text-xs">Required***.</p>
           )}
         </div>
-      </div>
-
-      {/* Second Village/ Date of Birth */}
-      <div className="flex justify-between items-center gap-4">
         <div className="flex flex-col mt-2 w-full">
           <label className="text-xs font-semibold">Second Village</label>
           <input
@@ -116,6 +165,21 @@ function VictimDetailsForm({ id }: PageProps) {
             <p className="text-red-500 text-xs">Required***.</p>
           )}
         </div>
+      </div>
+
+      {/* Contact Number/Date of Birth */}
+      <div className="flex justify-between items-center gap-4">
+        <div className="flex flex-col mt-2 w-full">
+          <label className="text-xs font-semibold">Contact Number</label>
+          <input
+            {...register("contactNumber", { required: true })}
+            className="border border-themeColor px-2 py-1 rounded-md"
+          />
+          {errors.contactNumber && (
+            <p className="text-red-500 text-xs">Required***.</p>
+          )}
+        </div>
+
         <div className="flex flex-col mt-2 w-full">
           <label className="text-xs font-semibold">Date of Birth</label>
           <input
@@ -512,6 +576,98 @@ function VictimDetailsForm({ id }: PageProps) {
           </select>
           {errors.immediateProtection && (
             <p className="text-red-500 text-xs">Required***.</p>
+          )}
+        </div>
+      </div>
+
+      {/* Name of Father/ Name of Mother */}
+      <div className="flex justify-between items-center gap-4">
+        <div className="flex flex-col mt-2 w-full">
+          <label className="text-xs font-semibold">Name of Father</label>
+          <input
+            {...register("nameOfFather")}
+            className="border border-themeColor px-2 py-1 rounded-md"
+          />
+          {errors.nameOfFather && (
+            <p className="text-red-500 text-xs">Must be a string</p>
+          )}
+        </div>
+        <div className="flex flex-col mt-2 w-full">
+          <label className="text-xs font-semibold">Name of Mother</label>
+          <input
+            {...register("nameOfMother")}
+            className="border border-themeColor px-2 py-1 rounded-md"
+          />
+          {errors.nameOfMother && (
+            <p className="text-red-500 text-xs">Must be a string</p>
+          )}
+        </div>
+      </div>
+
+      {/* Are they attending School? / Name of school*/}
+      <div className="flex justify-between items-center gap-4">
+        <div className="flex flex-col mt-2 w-full">
+          <label className="text-xs font-semibold">
+            Are they attending school?
+          </label>
+          <select
+            {...register("attendingSchool", { required: true })}
+            className="border border-themeColor px-2 py-1 rounded-md"
+          >
+            <option value={""}>Select an Option</option>
+            <option value={"Yes"}>Yes</option>
+            <option value={"No"}>No</option>
+          </select>
+          {errors.attendingSchool && (
+            <p className="text-red-500 text-xs">Required***</p>
+          )}
+        </div>
+        <div className="flex flex-col mt-2 w-full">
+          <label className="text-xs font-semibold">Name of School</label>
+          <input
+            {...register("nameOfSchool")}
+            className="border border-themeColor px-2 py-1 rounded-md"
+          />
+          {errors.nameOfSchool && (
+            <p className="text-red-500 text-xs">Must be a string</p>
+          )}
+        </div>
+      </div>
+
+      {/* Grade in school/ Type of case */}
+      <div className="flex justify-between items-center gap-4">
+        <div className="flex flex-col mt-2 w-full">
+          <label className="text-xs font-semibold">Grade in School</label>
+          <input
+            {...register("gradeInSchool")}
+            className="border border-themeColor px-2 py-1 rounded-md"
+          />
+          {errors.gradeInSchool && (
+            <p className="text-red-500 text-xs">Must be a string</p>
+          )}
+        </div>
+        <div className="flex flex-col mt-2 w-full">
+          <label className="text-xs font-semibold">Type of case</label>
+          <input
+            {...register("typeOfCase")}
+            className="border border-themeColor px-2 py-1 rounded-md"
+          />
+          {errors.typeOfCase && (
+            <p className="text-red-500 text-xs">Must be a string</p>
+          )}
+        </div>
+      </div>
+
+      {/* Home visit Dates */}
+      <div className="flex justify-between items-center gap-4">
+        <div className="flex flex-col mt-2 w-full">
+          <label className="text-xs font-semibold">Home visit dates</label>
+          <textarea
+            {...register("homeVisitDates")}
+            className="border border-themeColor px-2 py-1 rounded-md"
+          ></textarea>
+          {errors.homeVisitDates && (
+            <p className="text-red-500 text-xs">Must be a string</p>
           )}
         </div>
       </div>

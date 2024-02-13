@@ -8,7 +8,9 @@ import {
   TEditVictimDetailsSchema,
   editVictimDetailsSchema,
 } from "@/schema/victimDetails";
+import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
+import { options } from "../../auth/[...nextauth]/option";
 
 export async function PUT(
   req: NextRequest,
@@ -45,6 +47,22 @@ export async function PUT(
         secondVillage: result?.data?.secondVillage,
         sex: result?.data?.sex,
         typeOfDisability: result?.data?.typeOfDisability,
+        fullName: result?.data?.fullName,
+        aka: result?.data?.aka,
+      },
+    });
+
+    let pd = await prisma.perpetrator.findFirst({
+      where: { id: perpetratorDetails?.id },
+      include: { case: true },
+    });
+
+    const session = await getServerSession(options);
+    const activityLog = await prisma.activityLog.create({
+      data: {
+        userId: session?.user?.id as string,
+        activityHeader: "Updated Perpetrator details",
+        activityName: `Updated perpetrator details for Case - ${pd?.case?.caseId}`,
       },
     });
 

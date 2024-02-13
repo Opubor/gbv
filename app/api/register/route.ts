@@ -2,6 +2,8 @@ import prisma from "@/lib/prisma-client";
 import { registerUserSchema, TRegisterUserSchema } from "@/schema/user";
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcrypt";
+import { getServerSession } from "next-auth";
+import { options } from "../auth/[...nextauth]/option";
 
 export async function POST(req: NextRequest, res: NextResponse) {
   const body: TRegisterUserSchema = await req.json();
@@ -39,6 +41,15 @@ export async function POST(req: NextRequest, res: NextResponse) {
           gender: result?.data?.gender,
           password: hash,
           branch: result?.data?.branch,
+        },
+      });
+
+      const session = await getServerSession(options);
+      const activityLog = await prisma.activityLog.create({
+        data: {
+          userId: session?.user?.id as string,
+          activityHeader: "Registered a new staff",
+          activityName: `Added a new Staff - ${user?.firstName} ${user?.lastName}`,
         },
       });
 

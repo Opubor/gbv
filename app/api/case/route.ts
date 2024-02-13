@@ -15,14 +15,15 @@ export async function POST(req: NextRequest, res: NextResponse) {
       JSON.stringify({
         success: false,
         error: result.error.message,
-      })
+      }),
+      { status: 404 }
     );
   }
   try {
     const date = new Date();
     let caseId = "GBV" + date.getDate() + randomBytes(2).toString("hex");
 
-    const serviceProvider = await prisma.case.create({
+    const newCase = await prisma.case.create({
       data: {
         caseId: caseId,
         registeredBy: result?.data?.registeredBy,
@@ -38,6 +39,24 @@ export async function POST(req: NextRequest, res: NextResponse) {
             : null,
       },
     });
+
+    const activityLog = await prisma.activityLog.create({
+      data: {
+        userId: result?.data?.userId,
+        activityHeader: "New case added",
+        activityName: `Added a new case - ${newCase?.caseId}`,
+      },
+    });
+
+    if (newCase) {
+      return new Response(JSON.stringify("Registration Successful"), {
+        status: 200,
+      });
+    } else {
+      return new Response(JSON.stringify("Error during registration"), {
+        status: 404,
+      });
+    }
 
     return new Response(JSON.stringify("Registration Successful"), {
       status: 200,

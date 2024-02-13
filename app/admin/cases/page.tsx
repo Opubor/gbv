@@ -13,7 +13,7 @@ import Tr from "@/components/table/Tr";
 import prisma from "@/lib/prisma-client";
 // import { getAllCases } from "@/services/case";
 import Link from "next/link";
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useEffect, useRef, useState } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
 import { CiEdit } from "react-icons/ci";
 import { FaArrowCircleRight, FaPlus } from "react-icons/fa";
@@ -25,10 +25,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { searchSchema } from "@/schema/search";
 import TableLoader from "@/components/TableLoader";
 import { toast } from "react-toastify";
+import { useSession } from "next-auth/react";
+import ReactToPrint from "react-to-print";
+import { MdOutlinePrint } from "react-icons/md";
 
 function Page() {
   const [loading, setLoading] = useState(false);
   const [cases, setCases] = useState<any>();
+  const { data: session } = useSession();
 
   const {
     register,
@@ -102,8 +106,8 @@ function Page() {
       />
 
       {/* ===Actions */}
-      <div className="flex justify-between items-center gap-64 w-full my-2 lg:my-4">
-        <form className="w-full" onSubmit={handleSubmit(search)}>
+      <div className="flex justify-between items-center w-full my-2 lg:my-4">
+        <form className="w-12/12 lg:w-9/12" onSubmit={handleSubmit(search)}>
           <div className="flex justify-start items-center gap-2 w-5/6">
             <input
               {...register("search")}
@@ -121,6 +125,14 @@ function Page() {
             </button>
           </div>
         </form>
+        <div className="">
+          <h1 className="text-sm">
+            Total Number of Cases:{" "}
+            <span className="font-semibold bg-purple-300 px-2 py-1 rounded-md">
+              {cases?.length}
+            </span>
+          </h1>
+        </div>
       </div>
 
       <div className="bg-white rounded-lg py-4 w-full">
@@ -133,6 +145,7 @@ function Page() {
                 <Th>S/N</Th>
                 <Th>Case ID</Th>
                 <Th>Service Provider</Th>
+                <Th>Victim Name</Th>
                 <Th>Registered by</Th>
                 <Th>Reg. date</Th>
                 <Th>Residential Village</Th>
@@ -148,7 +161,13 @@ function Page() {
                     <Td>{i + 1}</Td>
                     <Td>{data?.caseId}</Td>
                     <Td>{data?.serviceProvider?.name}</Td>
-                    <Td>{data?.registeredBy}</Td>
+                    <Td>
+                      {data?.Victim.at(0)?.firstName}{" "}
+                      {data?.Victim.at(0)?.lastName}
+                    </Td>
+                    <Td>
+                      <p className="w-24 truncate">{data?.registeredBy}</p>
+                    </Td>
                     <Td>
                       {data?.registrationDate} - {data?.registrationTime}
                     </Td>
@@ -161,7 +180,9 @@ function Page() {
                       <EditButton
                         href={`/admin/cases/editCase/${data?.id}/serviceProvider`}
                       />
-                      <DeleteButton onClick={() => deleteCase(data?.id)} />
+                      {session?.user?.role === "2" && (
+                        <DeleteButton onClick={() => deleteCase(data?.id)} />
+                      )}
                     </OptionsTd>
                   </Tr>
                   <Tr extraClass="pb-24">

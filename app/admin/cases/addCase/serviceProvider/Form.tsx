@@ -1,6 +1,7 @@
 "use client";
 import { caseSchema } from "@/schema/case";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
@@ -12,11 +13,14 @@ type Props = {
   serviceProviders: any;
 };
 function Form({ serviceProviders }: Props) {
+  const { data: session } = useSession();
+
   const router = useRouter();
   const {
     register,
     handleSubmit,
     reset,
+    setValue,
     formState: { errors },
   } = useForm({ resolver: zodResolver(caseSchema) });
   const [loading, setLoading] = useState(false);
@@ -36,6 +40,7 @@ function Form({ serviceProviders }: Props) {
           serviceProviderId: data?.serviceProviderId,
           serviceProviderReferralId: data?.serviceProviderReferralId,
           tbid: data?.tbid,
+          userId: data?.userId,
         }),
       });
       setLoading(false);
@@ -245,7 +250,10 @@ function Form({ serviceProviders }: Props) {
         </div>
 
         <div className="mt-4 flex justify-center items-center">
-          <button className="bg-themeColor hover:bg-darkTheme hover:font-bold px-12 py-2 text-white text-sm rounded-md flex justify-center items-center gap-2">
+          <button
+            onClick={() => setValue("userId", session?.user?.id)}
+            className="bg-themeColor hover:bg-darkTheme hover:font-bold px-12 py-2 text-white text-sm rounded-md flex justify-center items-center gap-2"
+          >
             {loading ? "Loading..." : "Submit"}
           </button>
         </div>

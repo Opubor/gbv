@@ -16,6 +16,8 @@ export const perpetratorDetailsSchema = z.object({
   disabled: z.string().min(1),
   typeOfDisability: z.string().nullable().optional(),
   protectionOrder: z.string().min(1),
+  fullName: z.string().min(1),
+  aka: z.string().nullable().optional(),
 });
 export const editPerpetratorDetailsSchema = z.object({
   noOfPerpetrators: z.string().min(1),
@@ -32,6 +34,8 @@ export const editPerpetratorDetailsSchema = z.object({
   disabled: z.string().min(1),
   typeOfDisability: z.string().nullable().optional(),
   protectionOrder: z.string().min(1),
+  fullName: z.string().min(1),
+  aka: z.string().nullable().optional(),
 });
 
 export type TPerpetratorDetailsSchema = z.infer<

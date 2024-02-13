@@ -43,6 +43,8 @@ function PerpetratorDetailsForm({ id }: PageProps) {
           disabled: data?.disabled,
           typeOfDisability: data?.typeOfDisability,
           protectionOrder: data?.protectionOrder,
+          fullName: data?.fullName,
+          aka: data?.aka,
         }),
       });
       setLoading(false);
@@ -66,6 +68,28 @@ function PerpetratorDetailsForm({ id }: PageProps) {
   };
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
+      {/* Ful Name/ Also Known As(AKA) */}
+      <div className="flex justify-between items-center gap-4">
+        <div className="flex flex-col mt-2 w-full">
+          <label className="text-xs font-semibold">Full Name</label>
+          <input
+            {...register("fullName", { required: true })}
+            className="border border-themeColor px-2 py-1 rounded-md"
+          />
+          {errors.fullName && (
+            <p className="text-red-500 text-xs">Required***</p>
+          )}
+        </div>
+        <div className="flex flex-col mt-2 w-full">
+          <label className="text-xs font-semibold">Also known as (AKA)</label>
+          <input
+            {...register("aka", { required: true })}
+            className="border border-themeColor px-2 py-1 rounded-md"
+          />
+          {errors.aka && <p className="text-red-500 text-xs">Required***</p>}
+        </div>
+      </div>
+
       {/* No of Perpetrators/ contactWithPerpetrator */}
       <div className="flex justify-between items-center gap-4">
         <div className="flex flex-col mt-2 w-full">

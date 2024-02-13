@@ -22,6 +22,17 @@ export const victimDetailsSchema = z.object({
   perpetratorSex: z.string().min(1),
   perpetratorSurvivorRelationship: z.string().min(1),
   immediateProtection: z.string().min(1),
+  firstName: z.string().min(1),
+  lastName: z.string().min(1),
+  attendingSchool: z.string().min(1),
+  nameOfSchool: z.string().nullable().optional(),
+  gradeInSchool: z.string().nullable().optional(),
+  typeOfCase: z.string().nullable().optional(),
+  homeVisitDates: z.string().nullable().optional(),
+  nameOfFather: z.string().nullable().optional(),
+  nameOfMother: z.string().nullable().optional(),
+  statusCase: z.string().min(1),
+  contactNumber: z.string().min(1),
 });
 
 export const editVictimDetailsSchema = z.object({
@@ -45,6 +56,17 @@ export const editVictimDetailsSchema = z.object({
   perpetratorSex: z.string().min(1),
   perpetratorSurvivorRelationship: z.string().min(1),
   immediateProtection: z.string().min(1),
+  firstName: z.string().min(1),
+  lastName: z.string().min(1),
+  attendingSchool: z.string().min(1),
+  nameOfSchool: z.string().nullable().optional(),
+  gradeInSchool: z.string().nullable().optional(),
+  typeOfCase: z.string().nullable().optional(),
+  homeVisitDates: z.string().nullable().optional(),
+  nameOfFather: z.string().nullable().optional(),
+  nameOfMother: z.string().nullable().optional(),
+  statusCase: z.string().min(1),
+  contactNumber: z.string().min(1),
 });
 
 export type TVictimDetailsSchema = z.infer<typeof victimDetailsSchema>;

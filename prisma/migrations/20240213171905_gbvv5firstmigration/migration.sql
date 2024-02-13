@@ -76,6 +76,17 @@ CREATE TABLE `Victim` (
     `perpetratorSex` VARCHAR(191) NOT NULL,
     `perpetratorSurvivorRelationship` VARCHAR(191) NOT NULL,
     `immediateProtection` VARCHAR(191) NOT NULL,
+    `firstName` VARCHAR(191) NOT NULL DEFAULT '---',
+    `lastName` VARCHAR(191) NOT NULL DEFAULT '---',
+    `attendingSchool` VARCHAR(191) NOT NULL DEFAULT '---',
+    `nameOfSchool` VARCHAR(191) NULL DEFAULT '---',
+    `gradeInSchool` VARCHAR(191) NULL DEFAULT '---',
+    `typeOfCase` VARCHAR(191) NULL DEFAULT '---',
+    `homeVisitDates` VARCHAR(191) NULL DEFAULT '---',
+    `nameOfFather` VARCHAR(191) NULL DEFAULT '---',
+    `nameOfMother` VARCHAR(191) NULL DEFAULT '---',
+    `statusCase` VARCHAR(191) NOT NULL DEFAULT '---',
+    `contactNumber` VARCHAR(191) NOT NULL DEFAULT '---',
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
     INDEX `Victim_caseId_idx`(`caseId`),
@@ -100,6 +111,8 @@ CREATE TABLE `Perpetrator` (
     `disabled` VARCHAR(191) NOT NULL,
     `typeOfDisability` VARCHAR(191) NULL,
     `protectionOrder` VARCHAR(191) NOT NULL,
+    `fullName` VARCHAR(191) NOT NULL DEFAULT '---',
+    `aka` VARCHAR(191) NULL DEFAULT '---',
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
     INDEX `Perpetrator_caseId_idx`(`caseId`),
@@ -171,6 +184,17 @@ CREATE TABLE `GetHelp` (
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
+-- CreateTable
+CREATE TABLE `ActivityLog` (
+    `id` VARCHAR(191) NOT NULL,
+    `userId` VARCHAR(191) NOT NULL,
+    `activityHeader` VARCHAR(191) NOT NULL,
+    `activityName` VARCHAR(191) NOT NULL,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
 -- AddForeignKey
 ALTER TABLE `User` ADD CONSTRAINT `User_branch_fkey` FOREIGN KEY (`branch`) REFERENCES `Agency`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
@@ -188,3 +212,6 @@ ALTER TABLE `Perpetrator` ADD CONSTRAINT `Perpetrator_caseId_fkey` FOREIGN KEY (
 
 -- AddForeignKey
 ALTER TABLE `GbvInformation` ADD CONSTRAINT `GbvInformation_caseId_fkey` FOREIGN KEY (`caseId`) REFERENCES `Case`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `ActivityLog` ADD CONSTRAINT `ActivityLog_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;

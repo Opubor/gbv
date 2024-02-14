@@ -14,10 +14,13 @@ import { FaPeopleGroup } from "react-icons/fa6";
 import { getAllCases } from "@/services/case";
 import { getAllVictims } from "@/services/victimDetails";
 import DashboardReports from "@/components/DashboardReports";
+import { getServerSession } from "next-auth";
+import { options } from "@/app/api/auth/[...nextauth]/option";
 
 async function Page() {
   const allCases = await getAllCases();
   const allVictims = await getAllVictims();
+  const session = await getServerSession(options);
 
   return (
     <>
@@ -68,7 +71,7 @@ async function Page() {
           </div>
         </div>
       </div>
-      <DashboardReports />
+      {session?.user?.role === "2" && <DashboardReports />}
     </>
   );
 }

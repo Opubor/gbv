@@ -11,10 +11,28 @@ export default withAuth(
       return NextResponse.rewrite(new URL("/denied", request.url));
     }
     if (
-      request.nextUrl.pathname.startsWith("/superAdmin") &&
+      request.nextUrl.pathname.startsWith("/admin/reports") &&
       request.nextauth.token?.role !== "2"
     ) {
-      return NextResponse.rewrite(new URL("/denied", request.url));
+      return NextResponse.rewrite(new URL("/auth-denied", request.url));
+    }
+    if (
+      request.nextUrl.pathname.startsWith("/admin/activity-log") &&
+      request.nextauth.token?.role !== "2"
+    ) {
+      return NextResponse.rewrite(new URL("/auth-denied", request.url));
+    }
+    if (
+      request.nextUrl.pathname.startsWith("/admin/staffs") &&
+      request.nextauth.token?.role !== "2"
+    ) {
+      return NextResponse.rewrite(new URL("/auth-denied", request.url));
+    }
+    if (
+      request.nextUrl.pathname.startsWith("/admin/agencies") &&
+      request.nextauth.token?.role !== "2"
+    ) {
+      return NextResponse.rewrite(new URL("/auth-denied", request.url));
     }
   },
   {

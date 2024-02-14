@@ -26,7 +26,10 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import { RiHistoryLine } from "react-icons/ri";
 import { SlBookOpen } from "react-icons/sl";
 
-function Sidebar() {
+type Props = {
+  role: string;
+};
+function Sidebar({ role }: Props) {
   const path = usePathname();
 
   const [openSidebar, setOpenSidebar] = useState(false);
@@ -69,57 +72,143 @@ function Sidebar() {
       icon: LuSettings,
     },
   ];
+  const staffNavLink = [
+    { name: "Dashboard", path: "/admin/dashboard", icon: LuLayoutDashboard },
+    {
+      name: "Cases",
+      path: "/admin/cases",
+      icon: SlBookOpen,
+    },
+    {
+      name: "Get Help Requests",
+      path: "/admin/get-help",
+      icon: IoGitPullRequestOutline,
+    },
+
+    {
+      name: "Settings",
+      path: "/admin/settings",
+      icon: LuSettings,
+    },
+  ];
 
   return (
     <>
-      <div
-        className="fixed top-2 left-2 bg-gray-200 p-2 rounded-full z-50 lg:hidden"
-        onClick={() =>
-          openSidebar ? setOpenSidebar(false) : setOpenSidebar(true)
-        }
-      >
-        <FaBarsStaggered size={20} className="text-themeColor font-semibold" />
-      </div>
-      <div
-        className={`${
-          openSidebar ? "block" : "hidden"
-        } lg:block w-64 p-4 h-screen fixed z-40`}
-      >
-        <div className="bg-themeColor rounded-3xl pl-8 h-full">
-          <div className="flex justify-start items-center gap-2 py-8">
-            <FaHandHoldingHeart className="text-white" size={30} />
+      {role === "2" ? (
+        <>
+          {" "}
+          <div
+            className="fixed top-2 left-2 bg-gray-200 p-2 rounded-full z-50 lg:hidden"
+            onClick={() =>
+              openSidebar ? setOpenSidebar(false) : setOpenSidebar(true)
+            }
+          >
+            <FaBarsStaggered
+              size={20}
+              className="text-themeColor font-semibold"
+            />
+          </div>
+          <div
+            className={`${
+              openSidebar ? "block" : "hidden"
+            } lg:block w-64 p-4 h-screen fixed z-40`}
+          >
+            <div className="bg-themeColor rounded-3xl pl-8 h-full">
+              <div className="flex justify-start items-center gap-2 py-8">
+                <FaHandHoldingHeart className="text-white" size={30} />
 
-            <h1 className="text-white text-lg font-semibold">GBV Software</h1>
+                <h1 className="text-white text-lg font-semibold">
+                  GBV Software
+                </h1>
+              </div>
+              <div className="flex flex-col gap-2 pt-4">
+                {navLink?.map((link) => (
+                  <Link
+                    key={link.name}
+                    href={link?.path}
+                    className={`${
+                      path === link.path
+                        ? "text-themeColor bg-white rounded-tl-lg rounded-bl-lg"
+                        : "text-white"
+                    } text-sm p-2 flex items-center gap-2`}
+                  >
+                    <div>{React.createElement(link?.icon, { size: "20" })}</div>
+                    <h1>{link.name}</h1>
+                  </Link>
+                ))}
+              </div>
+              <div className={`p-2 flex items-center gap-2 text-white`}>
+                <AiOutlineLogout size={20} />
+                <button
+                  onClick={() => {
+                    signOut();
+                  }}
+                  className="text-sm hover:underline"
+                >
+                  Log Out
+                </button>
+              </div>
+            </div>
           </div>
-          <div className="flex flex-col gap-2 pt-4">
-            {navLink?.map((link) => (
-              <Link
-                key={link.name}
-                href={link?.path}
-                className={`${
-                  path === link.path
-                    ? "text-themeColor bg-white rounded-tl-lg rounded-bl-lg"
-                    : "text-white"
-                } text-sm p-2 flex items-center gap-2`}
-              >
-                <div>{React.createElement(link?.icon, { size: "20" })}</div>
-                <h1>{link.name}</h1>
-              </Link>
-            ))}
+        </>
+      ) : (
+        <>
+          {" "}
+          <div
+            className="fixed top-2 left-2 bg-gray-200 p-2 rounded-full z-50 lg:hidden"
+            onClick={() =>
+              openSidebar ? setOpenSidebar(false) : setOpenSidebar(true)
+            }
+          >
+            <FaBarsStaggered
+              size={20}
+              className="text-themeColor font-semibold"
+            />
           </div>
-          <div className={`p-2 flex items-center gap-2 text-white`}>
-            <AiOutlineLogout size={20} />
-            <button
-              onClick={() => {
-                signOut();
-              }}
-              className="text-sm hover:underline"
-            >
-              Log Out
-            </button>
+          <div
+            className={`${
+              openSidebar ? "block" : "hidden"
+            } lg:block w-64 p-4 h-screen fixed z-40`}
+          >
+            <div className="bg-themeColor rounded-3xl pl-8 h-full">
+              <div className="flex justify-start items-center gap-2 py-8">
+                <FaHandHoldingHeart className="text-white" size={30} />
+
+                <h1 className="text-white text-lg font-semibold">
+                  GBV Software
+                </h1>
+              </div>
+              <div className="flex flex-col gap-2 pt-4">
+                {staffNavLink?.map((link) => (
+                  <Link
+                    key={link.name}
+                    href={link?.path}
+                    className={`${
+                      path === link.path
+                        ? "text-themeColor bg-white rounded-tl-lg rounded-bl-lg"
+                        : "text-white"
+                    } text-sm p-2 flex items-center gap-2`}
+                  >
+                    <div>{React.createElement(link?.icon, { size: "20" })}</div>
+                    <h1>{link.name}</h1>
+                  </Link>
+                ))}
+              </div>
+              <div className={`p-2 flex items-center gap-2 text-white`}>
+                <AiOutlineLogout size={20} />
+                <button
+                  onClick={() => {
+                    signOut();
+                  }}
+                  className="text-sm hover:underline"
+                >
+                  Log Out
+                </button>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
+        </>
+      )}
     </>
   );
 }
